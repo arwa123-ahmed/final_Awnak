@@ -11,7 +11,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/admin/users", {
+      const res = await fetch("http://72.62.186.133/api/admin/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -27,7 +27,7 @@ const AdminUsers = () => {
 
   // delete
   const handleDelete = async (id) => {
-    await fetch(`http://127.0.0.1:8000/api/admin/users/${id}`, {
+    await fetch(`http://72.62.186.133/api/admin/users/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -36,7 +36,7 @@ const AdminUsers = () => {
 
   // suspend
   const handleSuspend = async (id) => {
-    await fetch(`http://127.0.0.1:8000/api/admin/users/${id}/suspend`, {
+    await fetch(`http://72.62.186.133/api/admin/users/${id}/suspend`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -45,7 +45,7 @@ const AdminUsers = () => {
 
   // unsuspend
   const handleUnsuspend = async (id) => {
-    await fetch(`http://127.0.0.1:8000/api/admin/users/${id}/unsuspend`, {
+    await fetch(`http://72.62.186.133/api/admin/users/${id}/unsuspend`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -54,7 +54,7 @@ const AdminUsers = () => {
 
   // activation
   const handleToggleActivation = async (id) => {
-    await fetch(`http://127.0.0.1:8000/api/admin/users/${id}/activation`, {
+    await fetch(`http://72.62.186.133/api/admin/users/${id}/activation`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -64,7 +64,7 @@ const AdminUsers = () => {
   // 🔥 update national id
   const handleUpdateNationalId = async (id) => {
     await fetch(
-      `http://127.0.0.1:8000/api/admin/users/${id}/update-national-id`,
+      `http://72.62.186.133/api/admin/users/${id}/update-national-id`,
       {
         method: "POST",
         headers: {
@@ -114,23 +114,23 @@ const AdminUsers = () => {
                 {/* User Image */}
                 <td className="px-6 py-4">
                   <img
-                    src={`http://127.0.0.1:8000/storage/${user.id_image}`}
+                    src={`http://72.62.186.133/storage/${user.id_image}`}
                     className="w-12 h-12 object-cover rounded cursor-pointer"
                     onClick={() =>
                       setPreviewImage(
-                        `http://127.0.0.1:8000/storage/${user.id_image}`,
+                        `http://72.62.186.133/storage/${user.id_image}`,
                       )
                     }
                   />
                 </td>
                 <td className="px-6 py-4">
                   <img
-                    src={`http://127.0.0.1:8000/storage/${user.national_id_image}`}
+                    src={`http://72.62.186.133/storage/${user.national_id_image}`}
                     alt="id"
                     className="w-12 h-12 object-cover rounded cursor-pointer border"
                     onClick={() =>
                       setPreviewImage(
-                        `http://127.0.0.1:8000/storage/${user.national_id_image}`,
+                        `http://72.62.186.133/storage/${user.national_id_image}`,
                       )
                     }
                   />

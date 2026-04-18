@@ -33,7 +33,7 @@ const LastRegisterPage = () => {
           throw new Error("Phone must be 11 digits.");
 
         // Send OTP
-        const response = await fetch("http://127.0.0.1:8000/api/send-otp", {
+        const response = await fetch("http://72.62.186.133/api/send-otp", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const LastRegisterPage = () => {
           throw new Error("OTP must be 4 digits.");
 
         // Verify OTP
-        const verifyRes = await fetch("http://127.0.0.1:8000/api/verify-otp", {
+        const verifyRes = await fetch("http://72.62.186.133/api/verify-otp", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -95,7 +95,7 @@ formData.append("phone", localState.phone);
 
 
 
-        const registerRes = await fetch("http://127.0.0.1:8000/api/register", {
+        const registerRes = await fetch("http://72.62.186.133/api/register", {
           method: "POST",
           headers: {
             Accept: "application/json",

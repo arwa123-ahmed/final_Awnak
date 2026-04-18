@@ -17,7 +17,7 @@ const ProtectedWrapper = ({ children }) => {
         }
 
         // الأفضل: نادى الـ API الخاص بالبروفايل للتأكد من الحالة من قاعدة البيانات مباشرة
-        const response = await axios.get("http://127.0.0.1:8000/api/user", {
+        const response = await axios.get("http://72.62.186.133/api/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

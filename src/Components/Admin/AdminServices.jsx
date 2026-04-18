@@ -8,7 +8,7 @@ const AdminServices = () => {
   const token = localStorage.getItem("token");
 
   const fetchServices = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/admin/services", {
+    const res = await fetch("http://72.62.186.133/api/admin/services", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -23,7 +23,7 @@ const AdminServices = () => {
   }, []);
 
   const handleDelete = async () => {
-    await fetch(`http://127.0.0.1:8000/api/admin/services/${selectedId}`, {
+    await fetch(`http://72.62.186.133/api/admin/services/${selectedId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
