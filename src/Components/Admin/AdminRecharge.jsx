@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:8000/api";
+const API = "http://72.62.186.133/api";
 
 const STATUS_TABS = [
   { key: "all", label: "All Requests" },
@@ -332,9 +332,9 @@ export default function AdminRecharges() {
                       {r.image ? (
                         <img
                           className="rc-thumb"
-                          src={`http://localhost:8000/storage/${r.image}`}
+                          src={`http://72.62.186.133/storage/${r.image}`}
                           alt="receipt"
-                          onClick={() => setPreview(`http://localhost:8000/storage/${r.image}`)}
+                          onClick={() => setPreview(`http://72.62.186.133/storage/${r.image}`)}
                         />
                       ) : (
                         <span style={{ fontSize: 12, color: "#d1d5db" }}>No image</span>

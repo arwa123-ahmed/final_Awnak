@@ -47,7 +47,7 @@ const AIChatbot = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:8000/api/chatbot", {
+      const response = await fetch("http://72.62.186.133/api/chatbot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

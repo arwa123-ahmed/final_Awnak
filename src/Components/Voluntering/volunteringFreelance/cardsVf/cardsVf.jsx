@@ -32,7 +32,7 @@ const CardsVf = () => {
     
       
     axios
-      .get("http://localhost:8000/api/categories/filter?mode=online")
+      .get("http://72.62.186.133/api/categories/filter?mode=online")
       .then((res) => {
         setCategories(res.data.categories);
         setLoading(false);

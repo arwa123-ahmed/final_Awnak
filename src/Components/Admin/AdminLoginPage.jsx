@@ -15,7 +15,7 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:8000/api/login", form);
+      const res = await axios.post("http://72.62.186.133/api/login", form);
       const user = res.data.user;
       const token = res.data.token;
 

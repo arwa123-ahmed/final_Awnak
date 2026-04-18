@@ -2,7 +2,7 @@
   "name": "react-final-project",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "http://72.62.186.133",
   "dependencies": {
     "@fontsource/almarai": "^5.2.8",
     "@fontsource/aref-ruqaa": "^5.2.8",

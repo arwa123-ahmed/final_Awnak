@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { useUser } from '../../context/userContext';
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://72.62.186.133";
 
 const getImageUrl = (path, fallback) => {
   if (!path) return fallback;
@@ -220,7 +220,7 @@ const EditServiceModal = ({ service, categories, onClose, onSave }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        `http://localhost:8000/api/services/${service.id}`,
+        `http://72.62.186.133/api/services/${service.id}`,
         form,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -335,9 +335,9 @@ export default function Account() {
     setServicesLoading(true);
 
     Promise.all([
-      axios.get("http://localhost:8000/api/my-offers", { headers }),
-      axios.get("http://localhost:8000/api/my-requests", { headers }),
-      axios.get("http://localhost:8000/api/categories"),
+      axios.get("http://72.62.186.133/api/my-offers", { headers }),
+      axios.get("http://72.62.186.133/api/my-requests", { headers }),
+      axios.get("http://72.62.186.133/api/categories"),
     ]).then(([offersRes, requestsRes, catsRes]) => {
       setMyOffers(offersRes.data.offers || []);
       setMyRequests(requestsRes.data.requests || []);
@@ -370,7 +370,7 @@ export default function Account() {
     if (!window.confirm("Are you sure you want to delete this service?")) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:8000/api/services/${serviceId}`, {
+      await axios.delete(`http://72.62.186.133/api/services/${serviceId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMyOffers((prev) => prev.filter((s) => s.id !== serviceId));

@@ -28,9 +28,9 @@ const NotificationsPage = () => {
     try {
       const [incomingRes, myMatchesRes] = await Promise.all([
         user.role === "volunteer"
-          ? axios.get("http://localhost:8000/api/volunteer/requests", { headers })
-          : axios.get("http://localhost:8000/api/customer/requests", { headers }),
-        axios.get("http://localhost:8000/api/my-matches", { headers }),
+          ? axios.get("http://72.62.186.133/api/volunteer/requests", { headers })
+          : axios.get("http://72.62.186.133/api/customer/requests", { headers }),
+        axios.get("http://72.62.186.133/api/my-matches", { headers }),
       ]);
 
       setIncomingRequests(
@@ -50,8 +50,8 @@ const NotificationsPage = () => {
     try {
       const endpoint =
         user.role === "volunteer"
-          ? `http://localhost:8000/api/service-matches/${matchId}/update-status-volunteer`
-          : `http://localhost:8000/api/service-matches/${matchId}/update-status-Customer`;
+          ? `http://72.62.186.133/api/service-matches/${matchId}/update-status-volunteer`
+          : `http://72.62.186.133/api/service-matches/${matchId}/update-status-Customer`;
 
       const res = await axios.put(endpoint, { status: action }, { headers });
 
@@ -109,7 +109,7 @@ const NotificationsPage = () => {
     const otherId = user.role === "volunteer" ? request.customer_id : request.volunteer_id;
 
     const avatar = otherUser?.id_image
-      ? `http://localhost:8000/storage/${otherUser.id_image}`
+      ? `http://72.62.186.133/storage/${otherUser.id_image}`
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(otherUser?.name || "U")}&background=bbf7d0&color=15803d&bold=true`;
 
     return (
@@ -175,7 +175,7 @@ const NotificationsPage = () => {
     if (!isMe) return null;
 
     const avatar = otherUser?.id_image
-      ? `http://localhost:8000/storage/${otherUser.id_image}`
+      ? `http://72.62.186.133/storage/${otherUser.id_image}`
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(otherUser?.name || "U")}&background=bbf7d0&color=15803d&bold=true`;
 
     return (

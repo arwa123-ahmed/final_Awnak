@@ -15,7 +15,7 @@ import {
 import passport from "../../images/passport1.webp";
 import idCardImg from "../../images/national id.avif";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://72.62.186.133";
 
 const getImageUrl = (path, fallback) => {
   if (!path) return fallback;

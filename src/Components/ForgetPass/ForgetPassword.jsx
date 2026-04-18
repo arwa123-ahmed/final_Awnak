@@ -22,7 +22,7 @@ const ForgetPassword = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/forget-password",
+        "http://72.62.186.133/api/forget-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

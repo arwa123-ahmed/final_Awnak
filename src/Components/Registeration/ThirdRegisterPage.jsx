@@ -50,7 +50,7 @@ const ThirdRegisterPage = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/check-email", {
+      const res = await fetch("http://72.62.186.133/api/check-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

@@ -25,9 +25,9 @@ const ServicesByCategory = ({ type }) => {
       try {
         let url = "";
         if (type === "requests") {
-          url = `http://localhost:8000/api/services/requests/${id}`;
+          url = `http://72.62.186.133/api/services/requests/${id}`;
         } else {
-          url = `http://localhost:8000/api/services/offers/${id}`;
+          url = `http://72.62.186.133/api/services/offers/${id}`;
         }
 
         const token = localStorage.getItem("token");

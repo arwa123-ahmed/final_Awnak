@@ -56,7 +56,7 @@ const ServiceCard = ({ service, type, onAccept }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:8000/api/update/role",
+        "http://72.62.186.133/api/update/role",
         { role: requiredRole },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -76,7 +76,7 @@ const ServiceCard = ({ service, type, onAccept }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:8000/api/services/${service.id}/request`,
+        `http://72.62.186.133/api/services/${service.id}/request`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -90,7 +90,7 @@ const ServiceCard = ({ service, type, onAccept }) => {
 
   const userName = service.user?.name;
   const userImage = service.user?.id_image
-    ? `http://localhost:8000/storage/${service.user.id_image}`
+    ? `http://72.62.186.133/storage/${service.user.id_image}`
     : userName
       ? `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=bbf7d0&color=15803d&bold=true`
       : `https://ui-avatars.com/api/?name=U&background=bbf7d0&color=15803d&bold=true`;

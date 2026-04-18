@@ -39,7 +39,7 @@ const Settings = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:8000/api/user", {
+        const res = await fetch("http://72.62.186.133/api/user", {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",

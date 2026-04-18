@@ -32,7 +32,7 @@ const CardsVo = () => {
     
       
     axios
-      .get("http://localhost:8000/api/categories/filter?mode=offline")
+      .get("http://72.62.186.133/api/categories/filter?mode=offline")
       .then((res) => {
         setCategories(res.data.categories);
         setLoading(false);

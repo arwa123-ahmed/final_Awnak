@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:8000/api";
+const API = "http://72.62.186.133/api";
 
 export default function BalancePopup({ show, onClose }) {
   const [balanceData, setBalanceData] = useState(null);

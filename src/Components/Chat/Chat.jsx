@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API = "http://localhost:8000/api";
+const API = "http://72.62.186.133/api";
 
 // ===================== Rating Modal =====================
 const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
@@ -372,7 +372,7 @@ const handleDone = async () => {
 
   const getAvatar = (sender) => {
     if (sender?.id_image)
-      return `http://localhost:8000/storage/${sender.id_image}`;
+      return `http://72.62.186.133/storage/${sender.id_image}`;
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(
       sender?.name || "U"
     )}&background=bbf7d0&color=15803d&bold=true`;

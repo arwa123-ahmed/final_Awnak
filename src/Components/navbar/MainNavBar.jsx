@@ -23,7 +23,7 @@ const getAvatar = (u) => {
   const imagePath = u?.profile_image || u?.avatar || u?.id_image;
   if (imagePath) {
     if (imagePath.startsWith("http")) return imagePath;
-    return `http://localhost:8000/storage/${imagePath}`;
+    return `http://72.62.186.133/storage/${imagePath}`;
   }
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(
     u?.name || "U"
@@ -69,7 +69,7 @@ const MainNavBar = ({ userLevel }) => {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        const res = await axios.get("http://localhost:8000/api/user", {
+        const res = await axios.get("http://72.62.186.133/api/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserBalance(res.data.balance || 0);
@@ -103,10 +103,10 @@ const MainNavBar = ({ userLevel }) => {
         const headers = { Authorization: `Bearer ${token}` };
 
         if (role === "volunteer") {
-          const res = await axios.get("http://localhost:8000/api/volunteer/requests", { headers });
+          const res = await axios.get("http://72.62.186.133/api/volunteer/requests", { headers });
           setNotifCount(res.data.requests?.length || 0);
         } else if (role === "customer") {
-          const res = await axios.get("http://localhost:8000/api/customer/requests", { headers });
+          const res = await axios.get("http://72.62.186.133/api/customer/requests", { headers });
           setNotifCount(res.data.requests?.length || 0);
         }
       } catch (err) {

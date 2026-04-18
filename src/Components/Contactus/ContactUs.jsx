@@ -63,7 +63,7 @@ export default function ContactForm() {
         setStatus("loading");
 
         try {
-            const response = await fetch("http://localhost:8000/api/contact", {
+            const response = await fetch("http://72.62.186.133/api/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

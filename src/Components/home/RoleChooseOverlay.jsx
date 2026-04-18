@@ -6,7 +6,7 @@ const RoleChooseOverlay = ({ onDone }) => {
   const chooseRole = async (role) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/user/update-role",
+        "http://72.62.186.133/api/user/update-role",
         { user_role: role },
         {
           headers: { Authorization: `Bearer ${token}` },

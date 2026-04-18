@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChatPage from "../Chat/Chat";
 
-const API = "http://localhost:8000/api";
+const API = "http://72.62.186.133/api";
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -70,7 +70,7 @@ export default function ProfilePage() {
   }, [id]);
 
   const getAvatar = (u) => {
-    if (u?.id_image) return `http://localhost:8000/storage/${u.id_image}`;
+    if (u?.id_image) return `http://72.62.186.133/storage/${u.id_image}`;
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(
       u?.name || "U",
     )}&background=bbf7d0&color=15803d&bold=true&size=200`;

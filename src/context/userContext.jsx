@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
-const BASE_URL = 'http://localhost:8000'; // ✅ أضيفي الـ BASE_URL هنا
+const BASE_URL = 'http://72.62.186.133'; // ✅ أضيفي الـ BASE_URL هنا
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);

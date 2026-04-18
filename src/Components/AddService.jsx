@@ -28,7 +28,7 @@ const AddServiceFAB = () => {
     useEffect(() => {
         if (isOpen) {
             axios
-                .get("http://localhost:8000/api/categories")
+                .get("http://72.62.186.133/api/categories")
                 .then((res) => setCategories(res.data.categories || res.data))
                 .catch(console.error);
         }
@@ -55,7 +55,7 @@ const AddServiceFAB = () => {
         try {
             const token = localStorage.getItem("token");
             await axios.post(
-                "http://localhost:8000/api/update/role",
+                "http://72.62.186.133/api/update/role",
                 { role: newRole },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -81,7 +81,7 @@ const AddServiceFAB = () => {
 //         try {
 //             const token = localStorage.getItem("token");
 //             const res = await axios.post(
-//                 "http://localhost:8000/api/services",
+//                 "http://72.62.186.133/api/services",
 //                 form,
 //                 { headers: { Authorization: `Bearer ${token}` } }
                 
@@ -122,7 +122,7 @@ const handleSubmit = async () => {
     try {
         const token = localStorage.getItem("token");
         const res = await axios.post(
-            "http://localhost:8000/api/services",
+            "http://72.62.186.133/api/services",
             form,
             { headers: { Authorization: `Bearer ${token}` } }
         );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:8000/api";
+const API = "http://72.62.186.133/api";
 
 export default function BalanceSection({ balanceData, onBalanceUpdate }) {
     const navigate = useNavigate();
