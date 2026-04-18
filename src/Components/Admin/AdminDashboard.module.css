@@ -1,0 +1,89 @@
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0fdf4, #ffffff);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 4rem;
+  color: #1f2937;
+}
+
+.title span {
+  color: #16a34a;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #dcfce7;
+  transition: all 0.35s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.04);
+  box-shadow: 0 30px 70px rgba(22, 163, 74, 0.25);
+  border-color: #16a34a;
+}
+
+.iconWrapper {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background-color: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  color: #16a34a;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .icon {
+  transform: rotate(8deg) scale(1.1);
+}
+
+.card h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.value {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #16a34a;
+  margin: 0.5rem 0;
+}
+
+.card span {
+  font-size: 0.95rem;
+  color: #6b7280;
+}

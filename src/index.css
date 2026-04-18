@@ -1,0 +1,74 @@
+/* --- Import fonts BEFORE Tailwind --- */
+
+@import "@fontsource/almarai";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "@fontsource/aref-ruqaa/400.css";
+@import "@fontsource/aref-ruqaa/700.css";
+
+/* --- Tailwind --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* الخلفية الافتراضية (Light Mode) */
+html,
+body,
+#root {
+  /* background-color: linear-gradient(to bottom right, #eff6ff, #ffffff, #f0fdf4); */
+  background-color: #ebebeb;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Almarai", sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+/* الخلفية الكحلية فقط في Dark Mode */
+html.dark,
+html.dark body,
+html.dark #root {
+  background-color: #0f172a; /* كحلي داكن - slate-900 */
+  color: #e2e8f0; /* لون النص الفاتح */
+}
+
+/* دعم الـ dark mode class على body أيضاً */
+body.dark-mode,
+body.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+/* دعم prefers-color-scheme للمتصفحات */
+@media (prefers-color-scheme: dark) {
+  html:not(.light),
+  html:not(.light) body,
+  html:not(.light) #root {
+    background-color: #0f172a;
+    color: #e2e8f0;
+  }
+}
+
+/* تأكد من أن جميع الـ sections ترث الخلفية */
+html.dark section,
+html.dark main,
+html.dark div {
+  background-color: transparent;
+}

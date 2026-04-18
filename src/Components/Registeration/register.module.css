@@ -1,0 +1,310 @@
+body {
+  font-family: "Almarai", sans-serif;
+}
+
+/* main div */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url(../../images/bg.jpg);
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* div that contain the form and steps */
+.container .regsterBox {
+  padding: 25px 50px;
+  background-color: #f0f8ed;
+  border-radius: 6px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.inAnimation {
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* style of steps */
+.container .regsterBox .numberOfSteps {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.container .regsterBox .numberOfSteps .number,
+.container .regsterBox .numberOfSteps .active {
+  padding: 15px;
+  background-color: #e2e8f0;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .regsterBox .numberOfSteps .active {
+  background-color: #00bc7d;
+  box-shadow: 0 0 3px 7px #b9f5d8;
+  font-weight: bold;
+  color: white;
+  height: 50px;
+  width: 50px;
+  animation: pulse 1.5s infinite;
+}
+
+.container .regsterBox .numberOfSteps .number svg {
+  width: 100%;
+  height: 100%;
+}
+
+.container .regsterBox .numberOfSteps .arrow {
+  height: 3px;
+  width: 30px;
+  background-color: #e2e8f0;
+}
+
+.container .regsterBox .numberOfSteps .arrowline {
+  height: 3px;
+  width: 30px;
+  background-color: #00bc7d;
+}
+
+/* style for form */
+.container .regsterBox form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.container .regsterBox form h3 {
+  text-align: center;
+}
+
+.container .regsterBox form input,
+select {
+  width: 450px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #a1f2d1;
+  outline: none;
+  padding: 0 10px;
+}
+input:focus,
+select:focus {
+  outline: none;
+  border: 2px solid #00b37d;
+  box-shadow: 0 0 8px rgba(0, 179, 125, 0.4);
+  transition: 0.2s ease;
+}
+
+.container .regsterBox form input[type="submit"] {
+  height: 35px;
+  background: linear-gradient(to right, #7cd8b7, #00bc80, #00bb9f);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+/* sumbit button animation */
+input[type="submit"]:hover:not(:disabled) {
+  background-color: #00b37d;
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 179, 125, 0.3);
+}
+.regsterBox button {
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+}
+
+button {
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  /* background: linear-gradient(to right, #7cd8b7, #70d6b5, #00bb9f); */
+}
+
+.container .regsterBox form input[type="submit"]:hover {
+  background: #1e976e;
+}
+
+option[disabled] {
+  display: none;
+}
+
+.container .regsterBox form p {
+  text-align: center;
+  font-size: 17px;
+}
+
+.container .regsterBox form p a {
+  color: #00bc7d;
+}
+
+.error {
+  color: rgb(248, 59, 59);
+}
+
+label {
+  color: #465469;
+}
+.disabledButton {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* media for mobile */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  .container .regsterBox {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .container .regsterBox form input,
+  .container .regsterBox form select {
+    width: 100%;
+    height: 35px;
+  }
+
+  .container .regsterBox form h3 {
+    font-size: 20px;
+  }
+
+  .container .regsterBox form p {
+    font-size: 15px;
+  }
+
+  .container .regsterBox .numberOfSteps {
+    /* for button */
+    /* display: flex !important; */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .container .regsterBox .numberOfSteps .arrow {
+    display: none;
+    /* make some free space in display remove arrow*/
+  }
+}
+
+/* media for tablet */
+@media (min-width: 601px) and (max-width: 992px) {
+  .container .regsterBox {
+    width: 90%;
+    padding: 30px;
+  }
+
+  .container .regsterBox form input,
+  .container .regsterBox form select {
+    width: 350px;
+  }
+
+  .container .regsterBox form h3 {
+    font-size: 22px;
+  }
+
+  .container .regsterBox .numberOfSteps .arrow {
+    width: 20px;
+  }
+}
+
+/* back href style */
+.container .regsterBox form .backLink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  color: #707f8d;
+}
+
+/* animations  */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 179, 125, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 179, 125, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 179, 125, 0);
+  }
+}
+
+/* loginstye */
+.rememberForget {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.rememberLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.forgetLink {
+  color: #00bc7d;
+  text-decoration: none;
+}
+
+.registerText {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.registerLink {
+  color: #00bc7d;
+  text-decoration: none;
+}
+/* new */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1.2s ease-in-out;
+}
+.passwordRulesError {
+  margin-top: 8px;
+  padding-left: 18px;
+  color: #e63946;
+  font-size: 13px;
+}
+
+.passwordRulesError li {
+  list-style: disc;
+}

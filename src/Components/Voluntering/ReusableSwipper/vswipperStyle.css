@@ -1,0 +1,147 @@
+#app {
+    height: 100%;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+}
+
+.swiper {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* .swiper-container {
+  position: relative;
+  z-index: 1;
+  margin: 60px auto;
+  width: 85%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+} */
+
+/* container*/
+.swiper-container {
+
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* slidder*/
+.mySwiper {
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* slides*/
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+/* img*/
+.mySwiper img {
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+
+    background-color: white;
+}
+.mySwiper img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background-color: white;
+}
+
+/* نقاط الباجينيشن */
+.swiper-pagination-bullet {
+    background-color: #999;
+    opacity: 0.8;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #007bff;
+    opacity: 1;
+}
+
+/*(progress circle) */
+.autoplay-progress {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--swiper-theme-color);
+}
+
+.swiper-pagination-bullet {
+    background-color: #ccc;
+    /* اللون الافتراضي */
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #28a745;
+    /* 💚 اللون الأخضر لما تكون مفعلة */
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 4px;
+    stroke: var(--swiper-theme-color);
+    fill: none;
+    stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+}
+
+
+
+
+/* small screen*/
+@media (max-width: 768px) {
+    .mySwiper {
+        width: 95%;
+        border-radius: 12px;
+    }
+
+    .mySwiper img {
+        object-fit: contain;
+    }
+}

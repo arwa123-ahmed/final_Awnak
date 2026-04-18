@@ -1,0 +1,71 @@
+.btn-outline {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--accent);
+  background: var(--darkaccent);
+}
+
+/* 🌿 Navbar الأساسي */
+.navbar-transparent {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 🧭 روابط الـ Navbar */
+.nav-link {
+  color: var(--dark-bg) !important;
+  background: transparent !important;
+  font-weight: 500;
+  border: 2px solid transparent !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.nav-link:hover {
+  color: var(--accent) !important;
+  transform: scale(1.05);
+}
+
+/* 🌟 الرابط النشط */
+.nav-link.active {
+  color: var(--accent) !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid var(--accent) !important;
+  background: transparent !important;
+}
+
+/* 📱 زر القائمة للموبايل */
+.mobile-menu-button {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: var(--dark-bg) !important;
+}
+
+.mobile-menu-button:hover {
+  color: var(--accent) !important;
+  transform: scale(1.1);
+}
+
+/* 🔒 زر تسجيل الدخول */
+.btn-outline {
+  background: transparent !important;
+  border: 2px solid var(--accent) !important;
+  color: var(--accent) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.btn-outline:hover {
+  background: transparent !important;
+  color: var(--accent) !important;
+  transform: scale(1.05);
+}
