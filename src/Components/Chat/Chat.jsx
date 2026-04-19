@@ -47,7 +47,7 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 w-[90%] max-w-sm flex flex-col items-center gap-5 text-center">
+      <div className="bg-white dark:!bg-slate-950  rounded-3xl shadow-2xl p-8 w-[90%] max-w-sm flex flex-col items-center gap-5 text-center">
         <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">
           🎉
         </div>
@@ -388,11 +388,11 @@ const handleDone = async () => {
 
   return (
     <div
-      className={`flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 ${inlineMode ? "h-[80vh]" : "min-h-screen"
+      className={`flex flex-col bg-white dark:!bg-slate-700 rounded-2xl shadow-lg overflow-hidden border border-gray-100 ${inlineMode ? "h-[80vh]" : "min-h-screen"
         }`}
     >
       {/* ── Header ── */}
-      <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 bg-white">
+      <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 bg-white dark:!bg-slate-800">
         <button
           onClick={onClose ? onClose : () => navigate(-1)}
           className="text-gray-400 hover:text-gray-600 transition"
@@ -523,7 +523,7 @@ const handleDone = async () => {
       )}
 
       {/* ── Input ── */}
-      <div className="px-4 py-3 border-t border-gray-100 bg-white flex gap-2 items-center">
+      <div className="px-4 py-3 border-t border-gray-100 bg-white dark:!bg-slate-800 flex gap-2 items-center">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}

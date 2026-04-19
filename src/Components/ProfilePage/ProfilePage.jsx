@@ -96,7 +96,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:!bg-slate-700">
         <div className="w-10 h-10 border-4 border-green-300 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -104,13 +104,13 @@ export default function ProfilePage() {
 
   if (!profileUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center text-gray-500">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:!bg-slate-700">
+        <div className="text-center text-gray-500 dark:text-gray-50">
           <p className="text-4xl mb-3">👤</p>
           <p>User not found</p>
           <button
             onClick={() => navigate(-1)}
-            className="mt-4 text-green-500 underline text-sm"
+            className="mt-4 text-green-500 dark:text-green-200 underline text-sm"
           >
             Go back
           </button>
@@ -120,14 +120,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4">
       <div
         className={`max-w-5xl mx-auto flex flex-col ${
           showChat && matchId ? "lg:flex-row" : ""
         } gap-6 items-start justify-center`}
       >
         {/* ── Profile Card ── */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden w-full max-w-md">
+        <div className="bg-white dark:!bg-slate-800 rounded-3xl shadow-sm border border-gray-100 overflow-hidden w-full max-w-md">
           {/* Top banner */}
           <div className="h-24 bg-gradient-to-r from-green-200 to-emerald-100 relative">
             <button
@@ -144,14 +144,14 @@ export default function ProfilePage() {
               <img
                 src={getAvatar(profileUser)}
                 alt={profileUser.name}
-                className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
+                className="w-24 h-24 rounded-full object-cover border-4 border-white  shadow-md"
               />
-              <span className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white" />
+              <span className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white " />
             </div>
 
             {/* Name & email */}
             <div>
-              <h1 className="text-xl font-bold text-gray-800">
+              <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">
                 {profileUser.name}
               </h1>
               <p className="text-sm text-gray-400 mt-0.5">
@@ -175,19 +175,19 @@ export default function ProfilePage() {
             )}
 
             {/* Divider */}
-            <div className="w-full h-px bg-gray-100" />
+            <div className="w-full h-px bg-gray-100 dark:!bg-gray-50" />
 
             {/* Stats - Reviews & Rating only (no balance) */}
             <div className="flex gap-8 w-full justify-center">
               <div className="flex flex-col items-center gap-0.5">
-                <p className="text-2xl font-bold text-gray-800">
+                <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                   {profileUser.ratings_count || 0}
                 </p>
                 <p className="text-xs text-gray-400">Reviews</p>
               </div>
-              <div className="w-px bg-gray-100" />
+              <div className="w-px bg-gray-100 dark:!bg-gray-50" />
               <div className="flex flex-col items-center gap-0.5">
-                <p className="text-2xl font-bold text-gray-800">
+                <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                   {parseFloat(profileUser.average_rating || 0).toFixed(1)}
                 </p>
                 <p className="text-xs text-gray-400">Avg Rating</p>
@@ -229,7 +229,7 @@ export default function ProfilePage() {
         setInquiryLoading(false);
       }}
       disabled={inquiryLoading}
-      className="w-full py-3 rounded-2xl bg-green-300 hover:bg-green-400 active:scale-95 text-white font-bold text-sm transition-all disabled:opacity-60"
+      className="w-full py-3 rounded-2xl bg-green-300 dark:bg-green-400 dark:!text-sky-950 hover:bg-green-400 dark:hover:bg-green-300  active:scale-95 text-white font-bold text-sm transition-all disabled:opacity-60"
     >
       {inquiryLoading ? "Loading..." : showChat ? "✕ Close Chat" : "💬 Chat"}
     </button>

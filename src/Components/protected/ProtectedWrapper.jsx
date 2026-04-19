@@ -41,14 +41,11 @@ const ProtectedWrapper = ({ children }) => {
   if (loading)
     return <p className="text-center mt-10">Loading user status...</p>;
 
-  // لو مفيش يوزر أصلاً (مش مسجل دخول)
-  if (!user) {
-    return (
-      <div className="text-center mt-20">
-        Please log in to access this page.
-      </div>
-    );
-  }
+  // في ProtectedWrapper - لو مفيش يوزر مش نرجعه، نسيبه يشوف الصفحة
+// بس الـ GuestWrapper هيمنع أي action
+if (!user) {
+  return <>{children}</>; // ✅ يشوف بس ميعملش حاجة
+}
 
   // فحص الحظر (Suspended)
   if (user.is_suspended === 1 || user.is_suspended === "1") {

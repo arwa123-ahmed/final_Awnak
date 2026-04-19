@@ -24,7 +24,7 @@ const FirstSection = () => {
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" dir="rtl">
 
           <motion.p
-            className="mt-6 text-white/70 dark:text-white/50 text-sm md:text-lg font-extralight tracking-widest"
+            className="mt-6 text-white/70 dark:text-green-100/50 text-sm md:text-lg font-extralight tracking-widest"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}

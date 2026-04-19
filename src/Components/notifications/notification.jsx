@@ -113,13 +113,13 @@ const NotificationsPage = () => {
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(otherUser?.name || "U")}&background=bbf7d0&color=15803d&bold=true`;
 
     return (
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-4 hover:shadow-md transition">
+      <div className="bg-white dark:!bg-slate-800 rounded-2xl border border-gray-100 dark:!border-gray-500 shadow-sm p-5 flex flex-col gap-4 hover:shadow-md transition">
 
         {/* User info */}
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate(`/profile/${otherId}`)}>
           <img src={avatar} alt="" className="w-11 h-11 rounded-full object-cover border-2 border-green-100" />
           <div className="flex-1">
-            <p className="text-sm font-semibold text-gray-800 hover:text-green-600 transition">
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-green-600 transition">
               {otherUser?.name || `User #${otherId}`}
             </p>
             <p className="text-xs text-gray-400">
@@ -137,7 +137,7 @@ const NotificationsPage = () => {
             <button
               onClick={() => handleAction(request.id, "accepted")}
               disabled={!!actionLoading}
-              className="flex-1 py-2 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm transition disabled:opacity-60"
+              className="flex-1 py-2 rounded-xl bg-green-300 hover:bg-green-400 text-slate-950 font-bold text-sm transition disabled:opacity-60"
             >
               {actionLoading === request.id + "accepted" ? "..." : "✓ Accept"}
             </button>
@@ -179,12 +179,12 @@ const NotificationsPage = () => {
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(otherUser?.name || "U")}&background=bbf7d0&color=15803d&bold=true`;
 
     return (
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3 hover:shadow-md transition">
+      <div className="bg-white dark:!bg-slate-800 rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3 hover:shadow-md transition">
 
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate(`/profile/${otherId}`)}>
           <img src={avatar} alt="" className="w-11 h-11 rounded-full object-cover border-2 border-green-100" />
           <div className="flex-1">
-            <p className="text-sm font-semibold text-gray-800 hover:text-green-600 transition">
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-green-600 transition">
               {otherUser?.name || `User #${otherId}`}
             </p>
             <p className="text-xs text-gray-400">

@@ -50,7 +50,7 @@ const AboutUs = () => {
 
   return (
     <ProtectedWrapper>
-      <div className="min-h-full w-full bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-slate-900 dark:via-blue-950 dark:to-slate-900 pattern-dots">
+      <div className="min-h-full w-full bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950 dark:via-green-950 dark:to-teal-950 pattern-dots">
         {/* Decorative Background Elements */}
         <motion.div
           className="fixed top-20 right-10 w-72 h-72 bg-green-300 dark:bg-emerald-400 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-20 dark:opacity-10"
@@ -65,7 +65,7 @@ const AboutUs = () => {
 
         {/* Hero Section */}
         <header className="relative w-full overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-emerald-500 to-teal-600 dark:from-slate-800 dark:via-blue-900 dark:to-slate-800" />
+          <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-emerald-500 to-teal-600 dark:from-green-400 dark:via-emerald-300 dark:to-teal-400" />
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full">
               <motion.div
@@ -81,18 +81,10 @@ const AboutUs = () => {
           </div>
           <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32">
             <div className="text-center">
-              <motion.div className="inline-block mb-8" {...fadeInUp}>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-white dark:bg-emerald-400 rounded-full blur-xl opacity-50" />
-                  <motion.div
-                    className="relative bg-white dark:bg-slate-800 rounded-full p-6"
-                    {...pulseGlow}
-                  />
-                </div>
-              </motion.div>
+              
               <motion.h1
                 id="page-title"
-                className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-6 tracking-tight"
+                className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white dark:!text-sky-950 mb-6 tracking-tight"
                 {...fadeInUp}
                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
               >
@@ -103,10 +95,10 @@ const AboutUs = () => {
                 {...fadeInUp}
                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
               >
-                <div className="h-2 w-32 bg-white dark:bg-emerald-400 rounded-full" />
+                <div className="h-2 w-32 bg-white dark:!bg-sky-950 rounded-full " />
               </motion.div>
               <motion.p
-                className="text-xl md:text-2xl text-green-50 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed"
+                className="text-xl md:text-2xl text-green-50 dark:!text-sky-950 max-w-3xl mx-auto leading-relaxed"
                 {...fadeInUp}
                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
               >
@@ -273,7 +265,7 @@ const AboutUs = () => {
             </div>
             <h2
               id="team-title"
-              className="text-5xl md:text-6xl font-bold gradient-text dark:text-white mb-6"
+              className="text-5xl md:text-6xl font-bold gradient-text dark:text-green-100 mb-6"
             >
               {t("team")}
             </h2>
@@ -315,7 +307,7 @@ const AboutUs = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-green-100 mb-2">
                   {t(item.member)}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-slate-300">

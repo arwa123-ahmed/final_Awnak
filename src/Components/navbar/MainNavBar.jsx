@@ -5,11 +5,12 @@ import {
   Menu, MenuButton, MenuItem, MenuItems,
 } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear, faClock, faMoon, faSun, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faClock, faMoon, faSun, faBell, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import axios from "axios";
-import logo from "../../images/logoA.png";
+import logoLight from "../../images/logoA.png";
+import logoDark from "../../images/logoDark2.1.png"; // ✅ غيري الاسم للصورة الداكنة
 
 const navigation = [
   { name: t("home"), href: "/" },
@@ -37,12 +38,10 @@ const MainNavBar = ({ userLevel }) => {
   const [notifCount, setNotifCount] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
 
-  // ✅ user كـ state يتحدث تلقائياً
   const [user, setUser] = useState(() =>
     JSON.parse(localStorage.getItem("user") || "{}")
   );
 
-  // ✅ sync الـ user من localStorage لو اتغير
   useEffect(() => {
     const syncUser = () => {
       const updated = JSON.parse(localStorage.getItem("user") || "{}");
@@ -56,14 +55,12 @@ const MainNavBar = ({ userLevel }) => {
     };
   }, []);
 
-  // dark mode
   useEffect(() => {
     const savedMode = localStorage.getItem("darkMode") === "true";
     setDarkMode(savedMode);
     document.documentElement.classList.toggle("dark", savedMode);
   }, []);
 
-  // balance
   useEffect(() => {
     const fetchBalance = async () => {
       const token = localStorage.getItem("token");
@@ -73,8 +70,6 @@ const MainNavBar = ({ userLevel }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserBalance(res.data.balance || 0);
-
-        // ✅ حدّث الـ user بالكامل من الـ API وحفظه
         const freshUser = res.data;
         localStorage.setItem("user", JSON.stringify(freshUser));
         setUser(freshUser);
@@ -82,7 +77,6 @@ const MainNavBar = ({ userLevel }) => {
         console.error(err);
       }
     };
-
     fetchBalance();
     window.addEventListener("balanceUpdated", fetchBalance);
     window.addEventListener("userUpdated", fetchBalance);
@@ -92,7 +86,6 @@ const MainNavBar = ({ userLevel }) => {
     };
   }, []);
 
-  // notifications
   useEffect(() => {
     const fetchNotifCount = async () => {
       const token = localStorage.getItem("token");
@@ -101,7 +94,6 @@ const MainNavBar = ({ userLevel }) => {
         const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
         const role = currentUser.role;
         const headers = { Authorization: `Bearer ${token}` };
-
         if (role === "volunteer") {
           const res = await axios.get("http://72.62.186.133/api/volunteer/requests", { headers });
           setNotifCount(res.data.requests?.length || 0);
@@ -113,7 +105,6 @@ const MainNavBar = ({ userLevel }) => {
         console.error(err);
       }
     };
-
     fetchNotifCount();
     const interval = setInterval(fetchNotifCount, 60000);
     return () => clearInterval(interval);
@@ -136,156 +127,201 @@ const MainNavBar = ({ userLevel }) => {
   const isLoggedIn = !!localStorage.getItem("token");
 
   return (
-    <Disclosure as="nav" className="fixed top-0 left-0 w-full z-50 bg-transparent text-[#2a3048] dark:text-white shadow-none backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 justify-between items-center">
+    <Disclosure as="nav" className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/90 border-b border-gray-100 dark:border-gray-700 shadow-sm transition-colors duration-300">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 justify-between items-center">
 
-          {/* ☰ mobile */}
-          <div className="flex items-center sm:hidden">
-            <DisclosureButton className="p-2 rounded-md hover:text-green-600 dark:hover:text-green-400 transition">
-              <FontAwesomeIcon icon={faBars} className="text-xl text-green-600 dark:text-green-400" />
-            </DisclosureButton>
+              {/* Logo */}
+              <div className="flex items-center gap-4">
+                {/* ✅ لوجو اللايت */}
+                <img src={logoLight} alt="Logo" className="h-8 w-auto hover:scale-105 transition dark:hidden" />
+                {/* ✅ لوجو الدارك */}
+                <img src={logoDark} alt="Logo" className="h-8 w-auto hover:scale-105 transition hidden dark:block" />
+
+                {/* Desktop Nav Links */}
+                <div className="hidden sm:flex space-x-1">
+                  {navigation.map((item) => (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-green-600 dark:text-green-400 font-semibold border-b-2 border-green-600 dark:border-green-400 px-3 py-2 text-sm transition-all"
+                          : "text-gray-700 dark:text-green-100 hover:text-green-600 dark:hover:text-green-300 px-3 py-2 text-sm transition-all"
+                      }
+                    >
+                      {item.name}
+                    </NavLink>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Side */}
+              <div className="flex items-center gap-3">
+
+                {!isLoggedIn && (
+                  <>
+                    {/* Dark Mode for guests */}
+                    <button
+                      onClick={toggleDarkMode}
+                      className="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 transition"
+                    >
+                      <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="text-base" />
+                    </button>
+
+                    <NavLink
+                      to="/login"
+                      className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white font-bold px-4 py-2 rounded-xl text-sm transition"
+                    >
+                      {t("login")}
+                    </NavLink>
+                  </>
+                )}
+
+                {isLoggedIn && (
+                  <div className="flex items-center gap-2 sm:gap-3">
+
+                    {/* Balance */}
+                    <div className="hidden sm:flex items-center gap-1.5 bg-green-50 dark:bg-green-900/30 px-3 py-1.5 rounded-full">
+                      <FontAwesomeIcon icon={faClock} className="text-green-600 dark:text-green-400 text-sm" />
+                      <span className="text-sm font-semibold text-green-700 dark:text-green-300">
+                        {userBalance} {t("min")}
+                      </span>
+                    </div>
+
+                    {/* Notifications */}
+                    <button
+                      onClick={() => navigate("/notifications")}
+                      className="relative flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 transition"
+                    >
+                      <FontAwesomeIcon icon={faBell} className="text-base" />
+                      {notifCount > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                          {notifCount > 9 ? "9+" : notifCount}
+                        </span>
+                      )}
+                    </button>
+
+                    {/* Dark Mode */}
+                    <button
+                      onClick={toggleDarkMode}
+                      className="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 transition"
+                    >
+                      <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="text-base" />
+                    </button>
+
+                    {/* Settings */}
+                    <button
+                      onClick={() => navigate("/settings")}
+                      className="hidden sm:flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 transition"
+                    >
+                      <FontAwesomeIcon icon={faGear} className="text-base" />
+                    </button>
+
+                    {/* User Avatar */}
+                    <Menu as="div" className="relative">
+                      <MenuButton className="flex rounded-full overflow-hidden hover:scale-110 transition border-2 border-green-300 dark:border-green-600 hover:border-green-500">
+                        <img
+                          src={getAvatar(user)}
+                          alt={user?.name || "User"}
+                          className="h-8 w-8 rounded-full object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "U")}&background=bbf7d0&color=15803d&bold=true&size=200`;
+                          }}
+                        />
+                      </MenuButton>
+                      <MenuItems className="absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-2xl bg-white dark:bg-gray-800 py-2 shadow-xl ring-1 ring-black/5 dark:ring-white/10 focus:outline-none">
+                        {/* User Info */}
+                        <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                          <p className="text-sm font-bold text-gray-800 dark:text-green-100 truncate">{user?.name}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user?.email}</p>
+                          {/* Balance in dropdown for mobile */}
+                          <div className="sm:hidden flex items-center gap-1.5 mt-2 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full w-fit">
+                            <FontAwesomeIcon icon={faClock} className="text-green-600 dark:text-green-400 text-xs" />
+                            <span className="text-xs font-semibold text-green-700 dark:text-green-300">
+                              {userBalance} {t("min")}
+                            </span>
+                          </div>
+                        </div>
+
+                        <MenuItem>
+                          <button
+                            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full text-left transition"
+                            onClick={() => navigate("/profile")}
+                          >
+                            {t("profile")}
+                          </button>
+                        </MenuItem>
+
+                        {/* Settings in dropdown for mobile */}
+                        <MenuItem>
+                          <button
+                            className="sm:hidden flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full text-left transition"
+                            onClick={() => navigate("/settings")}
+                          >
+                            {t("settings") || "Settings"}
+                          </button>
+                        </MenuItem>
+
+                        <MenuItem>
+                          <button
+                            className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-gray-700 w-full text-left transition"
+                            onClick={logout}
+                          >
+                            {t("logout")}
+                          </button>
+                        </MenuItem>
+                      </MenuItems>
+                    </Menu>
+
+                  </div>
+                )}
+
+                {/* ☰ Mobile Menu Button */}
+                <DisclosureButton className="sm:hidden flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 transition">
+                  <FontAwesomeIcon icon={open ? faTimes : faBars} className="text-base" />
+                </DisclosureButton>
+
+              </div>
+            </div>
           </div>
 
-          {/* logo + links */}
-          <div className="flex items-center space-x-4">
-            <img src={logo} alt="Logo" className="h-8 w-auto hover:scale-105 transition" />
-            <div className="hidden sm:flex space-x-2">
+          {/* Mobile Menu */}
+          <DisclosurePanel className="sm:hidden border-t border-gray-100 dark:border-gray-700">
+            <div className="px-4 py-3 space-y-1 bg-white dark:bg-gray-900">
               {navigation.map((item) => (
                 <NavLink
                   key={item.name}
                   to={item.href}
                   className={({ isActive }) =>
                     isActive
-                      ? "text-green-600 dark:text-green-400 font-semibold border-b-2 border-green-600 dark:border-green-400 px-3 py-2 text-sm"
-                      : "text-[#2a3048] dark:text-white hover:text-green-600 dark:hover:text-green-400 px-3 py-2 text-sm"
+                      ? "block px-3 py-2 rounded-xl text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20"
+                      : "block px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                   }
                 >
                   {item.name}
                 </NavLink>
               ))}
-            </div>
-          </div>
 
-          {/* right side */}
-          <div className="flex items-center space-x-5">
-            {!isLoggedIn && (
-              <NavLink
-                to="/login"
-                className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-xl text-lg"
-              >
-                {t("login")}
-              </NavLink>
-            )}
-
-            {isLoggedIn && (
-              <div className="flex items-center gap-5">
-
-                {/* Balance */}
-                <div className="flex items-center gap-2">
-                  <FontAwesomeIcon icon={faClock} className="text-lg text-[#2a3048] dark:text-white" />
-                  <span className="text-sm font-semibold text-[#2a3048] dark:text-white">
-                    {userBalance} {t("min")}
-                  </span>
-                </div>
-
-                {/* 🔔 Notifications */}
+              {isLoggedIn && (
                 <button
                   onClick={() => navigate("/notifications")}
-                  className="relative flex items-center justify-center text-[#2a3048] dark:text-white hover:text-green-600 dark:hover:text-green-400 transition"
+                  className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                 >
-                  <FontAwesomeIcon icon={faBell} className="text-xl" />
+                  <FontAwesomeIcon icon={faBell} />
+                  Notifications
                   {notifCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                      {notifCount > 9 ? "9+" : notifCount}
-                    </span>
+                    <span className="bg-red-500 text-white text-xs px-1.5 rounded-full">{notifCount}</span>
                   )}
                 </button>
-
-                {/* Dark Mode */}
-                <button
-                  onClick={toggleDarkMode}
-                  className="flex items-center justify-center text-[#2a3048] dark:text-white hover:text-green-600 dark:hover:text-green-400 transition"
-                >
-                  <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="text-xl" />
-                </button>
-
-                {/* Settings */}
-                <button
-                  onClick={() => navigate("/settings")}
-                  className="flex items-center justify-center text-[#2a3048] dark:text-white hover:text-green-600 dark:hover:text-green-400 transition"
-                >
-                  <FontAwesomeIcon icon={faGear} className="text-xl" />
-                </button>
-
-                {/* ✅ User Avatar */}
-                <Menu as="div" className="relative">
-                  <MenuButton className="flex rounded-full overflow-hidden hover:scale-110 transition border-2 border-green-200 hover:border-green-400">
-                    <img
-                      src={getAvatar(user)}
-                      alt={user?.name || "User"}
-                      className="h-8 w-8 rounded-full object-cover"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "U")}&background=bbf7d0&color=15803d&bold=true&size=200`;
-                      }}
-                    />
-                  </MenuButton>
-                  <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    {/* User name header */}
-                    <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                      <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{user?.name}</p>
-                      <p className="text-xs text-gray-400 truncate">{user?.email}</p>
-                    </div>
-                    <MenuItem>
-                      <button
-                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
-                        onClick={() => navigate("/profile")}
-                      >
-                        {t("profile")}
-                      </button>
-                    </MenuItem>
-                    <MenuItem>
-                      <button
-                        className="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-gray-700 w-full text-left"
-                        onClick={logout}
-                      >
-                        {t("logout")}
-                      </button>
-                    </MenuItem>
-                  </MenuItems>
-                </Menu>
-
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <DisclosurePanel className="sm:hidden">
-        <div className="space-y-1 px-2 pb-3 pt-2 bg-white dark:bg-gray-800">
-          {navigation.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.href}
-              className="block rounded-md px-3 py-2 text-base text-[#2a3048] dark:text-white hover:text-green-600 dark:hover:text-green-400"
-            >
-              {item.name}
-            </NavLink>
-          ))}
-          <button
-            onClick={() => navigate("/notifications")}
-            className="flex items-center gap-2 w-full rounded-md px-3 py-2 text-base text-[#2a3048] dark:text-white hover:text-green-600"
-          >
-            <FontAwesomeIcon icon={faBell} />
-            Notifications
-            {notifCount > 0 && (
-              <span className="bg-red-500 text-white text-xs px-1.5 rounded-full">{notifCount}</span>
-            )}
-          </button>
-        </div>
-      </DisclosurePanel>
+              )}
+            </div>
+          </DisclosurePanel>
+        </>
+      )}
     </Disclosure>
   );
 };

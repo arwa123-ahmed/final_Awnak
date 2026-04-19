@@ -17,7 +17,7 @@ const Footer = () => {
 
 
   return (
-    <footer className={`  text-gray-800 dark:text-white py-8 border-t border-gray-200 dark:border-gray-700 ${isRTL ? 'rtl' : 'ltr'}`}>
+    <footer className={`  text-gray-800 dark:text-green-100 py-8 border-t border-gray-200 dark:border-gray-700 ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}

@@ -31,26 +31,43 @@ const ServiceCard = ({ service, type, onAccept }) => {
   const isOwner = service.user?.id === user.id;
   const requiredRole = type === "offers" ? "customer" : "volunteer";
   const hasCorrectRole = currentRole === requiredRole;
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
 
+  // const handleButtonClick = () => {
+  //   if (isOwner) return;
+
+  //   if (!hasCorrectRole) {
+  //     setShowRoleAlert(true);
+  //     return;
+  //   }
+
+  //   if (type === "offers" && currentRole === "customer") {
+  //     const userBalance = parseFloat(user.balance ?? 0);
+  //     const serviceCost = parseFloat(service.timesalary ?? 0);
+  //     if (userBalance < serviceCost) {
+  //       setShowBalanceAlert(true);
+  //       return;
+  //     }
+  //   }
+
+  //   handleAccept();
+  // };
   const handleButtonClick = () => {
-    if (isOwner) return;
-
-    if (!hasCorrectRole) {
-      setShowRoleAlert(true);
-      return;
-    }
-
-    if (type === "offers" && currentRole === "customer") {
-      const userBalance = parseFloat(user.balance ?? 0);
-      const serviceCost = parseFloat(service.timesalary ?? 0);
-      if (userBalance < serviceCost) {
-        setShowBalanceAlert(true);
+    // ✅ تحقق من الـ login الأول
+    if (!user || !localStorage.getItem("token")) {
+        setShowLoginAlert(true);
         return;
-      }
     }
 
+    if (isOwner) return;
+    if (!hasCorrectRole) { setShowRoleAlert(true); return; }
+    if (type === "offers" && currentRole === "customer") {
+        const userBalance = parseFloat(user.balance ?? 0);
+        const serviceCost = parseFloat(service.timesalary ?? 0);
+        if (userBalance < serviceCost) { setShowBalanceAlert(true); return; }
+    }
     handleAccept();
-  };
+};
 
   const handleChangeRole = async () => {
     try {
@@ -97,7 +114,7 @@ const ServiceCard = ({ service, type, onAccept }) => {
 
   return (
     <>
-      <div className="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-green-100 hover:shadow-lg">
+      <div className="bg-white dark:!bg-slate-900 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-green-100 hover:shadow-lg">
 
         <div className="h-1.5 bg-gradient-to-r from-green-400 to-green-300" />
 
@@ -113,8 +130,8 @@ const ServiceCard = ({ service, type, onAccept }) => {
             </span>
           </div>
 
-          <h3 className="text-base font-bold text-gray-800 leading-snug">{service.name}</h3>
-          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">{service.description}</p>
+          <h3 className="text-base font-bold text-gray-800 dark:text-gray-300 leading-snug">{service.name}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">{service.description}</p>
 
           {service.service_location && (
             <p className="text-xs text-gray-400 flex items-center gap-1 truncate">
@@ -126,7 +143,7 @@ const ServiceCard = ({ service, type, onAccept }) => {
         <div className="mx-5 h-px bg-gray-100" />
 
         <div
-          className="px-5 py-3 flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition-colors"
+          className="px-5 py-3 flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
           onClick={() => navigate(`/profile/${service.user?.id}`)}
         >
           <div className="relative">
@@ -141,7 +158,7 @@ const ServiceCard = ({ service, type, onAccept }) => {
             />
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-400 border-2 border-white" />
           </div>
-          <p className="text-sm font-semibold text-gray-800 hover:text-green-600 transition-colors">
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-300 hover:text-green-600 transition-colors">
             {userName || "Unknown User"}
           </p>
         </div>
@@ -157,14 +174,14 @@ const ServiceCard = ({ service, type, onAccept }) => {
                   : accepted
                     ? "bg-green-100 text-green-600 cursor-not-allowed"
                     : accepting
-                      ? "bg-green-300 text-white cursor-not-allowed"
-                      : "bg-green-300 hover:bg-green-400 text-white active:scale-95"
+                      ? "bg-green-300  text-white cursor-not-allowed"
+                      : "bg-green-300 dark:!bg-green-200 hover:bg-green-400 dark:hover:!bg-green-300  text-white  dark:!text-sky-950 active:scale-95"
                 }`}
             >
               {isOwner ? "🔒 Your Service"
                 : accepted ? "✓ Done!"
                 : accepting ? "Loading..."
-                : type === "requests" ? "✦ Accept" : "🛒 Order"
+                : type === "requests" ? "Order":" Accept " 
               }
             </button>
           </div>

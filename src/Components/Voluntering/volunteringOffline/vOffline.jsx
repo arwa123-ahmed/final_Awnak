@@ -18,10 +18,10 @@ const VOffline = () => {
   }, []);
 
   // Loading user data
-  if (!user) return <p className="text-center mt-10">Loading user...</p>;
+  // if (!user) return <p className="text-center mt-10">Loading user...</p>;
 
   // Check activation
-  if (user.activation === 0) {
+  if (user && user.activation === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-gray-100 px-4">
         <div className="bg-white shadow-2xl rounded-3xl p-10 max-w-md w-full text-center border border-gray-100">

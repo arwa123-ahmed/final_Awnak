@@ -89,6 +89,7 @@ import LastRegisterPage from "./Components/Registeration/LastRegisterPage.jsx";
 //Recharge Balance from Admin 
 import AdminRecharges from "./Components/Admin/AdminRecharge.jsx";
 
+
 axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter([
@@ -131,14 +132,30 @@ const router = createBrowserRouter([
 
       { path: "language", element: <Language /> },
 
+      // {
+      //   path: "volunteer/category/:id",
+      //   element: <ServicesByCategory type="requests" />,
+      // },
+      // {
+      //   path: "customer/category/:id",
+      //   element: <ServicesByCategory type="offers" />,
+      // },
       {
-        path: "volunteer/category/:id",
-        element: <ServicesByCategory type="requests" />,
-      },
-      {
-        path: "customer/category/:id",
-        element: <ServicesByCategory type="offers" />,
-      },
+  path: "volunteer/category/:id",
+  element: (
+    <ProtectedRoute>
+      <ServicesByCategory type="requests" />
+    </ProtectedRoute>
+  ),
+},
+{
+  path: "customer/category/:id",
+  element: (
+    <ProtectedRoute>
+      <ServicesByCategory type="offers" />
+    </ProtectedRoute>
+  ),
+},
 
       { path: "notifications", element: <NotificationsPage /> },
 

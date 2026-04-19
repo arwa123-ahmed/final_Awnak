@@ -86,7 +86,7 @@ export default function ContactForm() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f0f8ed] dark:bg-gray-900 text-gray-800 dark:text-white py-16 flex justify-center items-start">
+        <div className="min-h-screen bg-[#f0f8ed] dark:bg-gray-900 text-gray-800 dark:text-green-100 py-16 flex justify-center items-start">
             <div className="w-[95%] max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-16">
 
                 {/* Left Side */}
@@ -145,53 +145,53 @@ export default function ContactForm() {
 
                         {/* Name */}
                         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full">
-                            <label className="font-semibold w-28 text-gray-800 dark:text-white">{t("contactName")}</label>
+                            <label className="font-semibold w-28 text-gray-800 dark:text-green-100">{t("contactName")}</label>
                             <input
                                 type="text"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 w-full border border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                                className="flex-1 w-full border border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
                             />
                         </div>
 
                         {/* Email */}
                         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full">
-                            <label className="font-semibold w-28 text-gray-800 dark:text-white">{t("contactEmail")}</label>
+                            <label className="font-semibold w-28 text-gray-800 dark:text-green-100">{t("contactEmail")}</label>
                             <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
                             />
                         </div>
 
                         {/* Subject */}
                         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full">
-                            <label className="font-semibold w-28 text-gray-800 dark:text-white">{t("contactSubject")}</label>
+                            <label className="font-semibold w-28 text-gray-800 dark:text-green-100">{t("contactSubject")}</label>
                             <input
                                 type="text"
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
                             />
                         </div>
 
                         {/* Message */}
                         <div className="flex flex-col md:flex-row items-start gap-4 w-full">
-                            <label className="font-semibold w-28 mt-1 text-gray-800 dark:text-white">{t("contactMessage")}</label>
+                            <label className="font-semibold w-28 mt-1 text-gray-800 dark:text-green-100">{t("contactMessage")}</label>
                             <textarea
                                 rows="6"
                                 name="message"
                                 value={formData.message}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
                             ></textarea>
                         </div>
 

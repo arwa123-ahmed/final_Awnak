@@ -110,7 +110,7 @@ dark:from-gray-900  rounded-[50px] dark:to-green-9500 dark:via-slate-800 dark:to
                       />
                     </motion.div>
                     <div className="mr-4">
-                      <h4 className="font-bold text-lg text-slate-900 dark:text-white">
+                      <h4 className="font-bold text-lg text-slate-900 dark:text-green-100">
                         {review.name}
                       </h4>
                       <div className="flex gap-1 mt-1">

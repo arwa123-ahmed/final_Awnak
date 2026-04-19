@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import RoleSelectionModal from "../modal/UserRole"; // عدّل الـ path
 import HeroSection from "./HeroSection";
-import CategoriesSection from "./CategoriesSection";
-import FreeTrialSection from "./FreeTrialSection";
 import ShippingDetailsSection from "./Details";
 import RatingsReviewsSection from "./rate";
 import FirstSection from "./FirstSection";
@@ -59,7 +57,7 @@ const Home = () => {
           <section className="w-full px-6 lg:px-12 py-24 overflow-hidden dark:bg-gray-900">
             <div className="max-w-7xl mx-auto">
               <div className="text-right mb-16" dir="rtl">
-                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-green-100 leading-tight">
                   من <span className="text-green-600">نخــــــــدم</span>
                 </h2>
               </div>
@@ -83,7 +81,7 @@ const Home = () => {
                 </div>
 
                 <motion.div
-                  className="flex-1 bg-green-50 dark:bg-green-900/40 rounded-3xl p-12 flex flex-col justify-center space-y-12 shadow-xl"
+                  className="flex-1 bg-green-50 dark:bg-green-100 rounded-3xl p-12 flex flex-col justify-center space-y-12 shadow-xl"
                   initial={{ x: 100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ duration: 0.8 }}
@@ -94,16 +92,16 @@ const Home = () => {
                     <h3 className="text-2xl font-bold text-green-700 border-b pb-2 border-green-300 inline-block">
                       العملاء
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-lg">
+                    <p className="text-gray-700 dark:text-blue-950 leading-relaxed text-lg">
                       الباحثون عن من يقومون بخدماتهم أو مساعدتهم أو حل مشكلاتهم
                     </p>
                   </div>
 
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-green-800 border-b pb-2 border-green-400 inline-block">
+                    <h3 className="text-2xl font-bold text-green-700 border-b pb-2 border-green-400 inline-block">
                       المتطوعون
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-lg">
+                    <p className="text-gray-700 dark:text-blue-950 leading-relaxed text-lg">
                       الأشخاص الذين يريدون استغلال أوقاتهم بطريقة صحيحة بالتعاون
                       مع العملاء
                     </p>

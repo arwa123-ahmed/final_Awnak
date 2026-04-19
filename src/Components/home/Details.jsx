@@ -42,7 +42,7 @@ const ShippingDetailsSection = () => {
         className="mb-16"
       >
         <h2 className="leading-tight">
-          <span className="block text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white">
+          <span className="block text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-green-100">
             How
           </span>
 
@@ -76,12 +76,12 @@ const ShippingDetailsSection = () => {
             >
               {/* Number Circle */}
               <motion.div
-                className="relative z-10 flex items-center justify-center w-20 h-20 mx-auto rounded-full bg-white dark:bg-slate-800 shadow-lg border-4 border-green-500"
+                className="relative z-10 flex items-center justify-center w-20 h-20 mx-auto rounded-full bg-white dark:!bg-green-100 shadow-lg border-4 border-green-500 dark:border-green-600"
                 initial={{ rotate: -180, opacity: 0 }}
                 whileInView={{ rotate: 0, opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
-                <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                <span className="text-2xl font-bold text-green-600 dark:text-green-700">
                   {index + 1}
                 </span>
               </motion.div>
@@ -92,11 +92,11 @@ const ShippingDetailsSection = () => {
                   <step.icon className="w-10 h-10 mx-auto" />
                 </div>
 
-                <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
+                <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-green-100">
                   {t(step.title)}
                 </h3>
 
-                <p className="text-slate-600 dark:text-white">{t(step.desc)}</p>
+                <p className="text-slate-600 dark:text-green-100">{t(step.desc)}</p>
               </div>
             </motion.div>
           ))}

@@ -18,35 +18,62 @@ const ServicesByCategory = ({ type }) => {
     setUser(storedUser);
   }, []);
 
+  // useEffect(() => {
+  //   const fetchServices = async () => {
+  //     // if (!user) return; // safety check
+
+  //     try {
+  //       let url = "";
+  //       if (type === "requests") {
+  //         url = `http://72.62.186.133/api/services/requests/${id}`;
+  //       } else {
+  //         url = `http://72.62.186.133/api/services/offers/${id}`;
+  //       }
+
+  //       const token = localStorage.getItem("token");
+  //       const res = await axios.get(url, {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
+
+  //       console.log("API Response:", res.data);
+
+  //       let data =
+  //         res.data.services || res.data.offers || res.data.Requests || [];
+
+  //       // ترتيب pending أولاً
+  //       data.sort((a, b) => {
+  //         if (a.status === "pending" && b.status !== "pending") return -1;
+  //         if (a.status !== "pending" && b.status === "pending") return 1;
+  //         return 0;
+  //       });
+
+  //       setServices(data);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //     setLoading(false);
+  //   };
+
+  //   fetchServices();
+  // }, [id, type, user]);
   useEffect(() => {
     const fetchServices = async () => {
-      if (!user) return; // safety check
-
+      // ✅ مش محتاجين user عشان نجيب الخدمات
       try {
-        let url = "";
-        if (type === "requests") {
-          url = `http://72.62.186.133/api/services/requests/${id}`;
-        } else {
-          url = `http://72.62.186.133/api/services/offers/${id}`;
-        }
+        let url = type === "requests"
+          ? `http://72.62.186.133/api/services/requests/${id}`
+          : `http://72.62.186.133/api/services/offers/${id}`;
 
         const token = localStorage.getItem("token");
-        const res = await axios.get(url, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        console.log("API Response:", res.data);
-
-        let data =
-          res.data.services || res.data.offers || res.data.Requests || [];
-
-        // ترتيب pending أولاً
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        
+        const res = await axios.get(url, { headers });
+        let data = res.data.services || res.data.offers || res.data.Requests || [];
         data.sort((a, b) => {
           if (a.status === "pending" && b.status !== "pending") return -1;
           if (a.status !== "pending" && b.status === "pending") return 1;
           return 0;
         });
-
         setServices(data);
       } catch (err) {
         console.error(err);
@@ -55,14 +82,15 @@ const ServicesByCategory = ({ type }) => {
     };
 
     fetchServices();
-  }, [id, type, user]);
+  }, [id, type]); 
 
-  if (!user) {
-    return <p className="text-center mt-10">Loading user...</p>;
-  }
+
+  // if (!user) {
+  //   return <p className="text-center mt-10">Loading user...</p>;
+  // }
 
   // ❌ لو مش مفعل
-  if (user.activation === 0) {
+  if (user && user.activation === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-gray-100 px-4">
         <motion.div

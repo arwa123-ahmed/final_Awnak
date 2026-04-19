@@ -65,7 +65,7 @@ const Settings = () => {
           {icon}
         </div>
         <div>
-          <p className="text-gray-800 dark:text-white font-semibold text-sm">{label}</p>
+          <p className="text-gray-800 dark:text-green-100 font-semibold text-sm">{label}</p>
           {sublabel && <p className="text-gray-400 dark:text-gray-500 text-xs mt-0.5">{sublabel}</p>}
         </div>
       </div>
@@ -90,7 +90,7 @@ const Settings = () => {
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-green-100">
             {t("setting") || "Settings"}
           </h1>
         </div>
@@ -118,7 +118,7 @@ const Settings = () => {
               {/* Info */}
  {/* Info */}
 <div className="flex-1">
-  <h3 className="text-gray-900 dark:text-white font-bold text-base">{user.name}</h3>
+  <h3 className="text-gray-900 dark:text-green-100 font-bold text-base">{user.name}</h3>
 
   {/* <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
     <p className="text-gray-400 dark:text-gray-500 text-xs">{user.email}</p>

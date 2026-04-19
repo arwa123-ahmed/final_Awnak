@@ -37,9 +37,9 @@ const VHomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!user) return <p className="text-center mt-10">Loading user...</p>;
+  // if (!user) return <p className="text-center mt-10">Loading user...</p>;
 
-  if (user.activation === 0) {
+  if (user && user.activation === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-gray-100 px-4">
         <motion.div
@@ -72,7 +72,7 @@ const VHomePage = () => {
             alt="volunteer home page"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-green-900/60 backdrop-blur-[2px] flex items-center justify-center px-6 text-center">
+          <div className="absolute inset-0 bg-green-900/60 dark:bg-green-900/60 backdrop-blur-[2px] flex items-center justify-center px-6 text-center">
             <AnimatePresence mode="wait">
               {index === -1 ? (
                 <motion.h1
