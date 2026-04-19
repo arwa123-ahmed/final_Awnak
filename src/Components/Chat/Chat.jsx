@@ -144,8 +144,10 @@ const matchIdInt = matchId ? parseInt(matchId, 10) : null;
   // const isVolunteer = matchInfo?.volunteer_id === user.id;
   // const isCustomer = matchInfo?.customer_id === user.id;
     // ✅ احسبهم بعد ما matchInfo يجي
-const isVolunteer = matchInfo ? matchInfo.volunteer_id === user.id : false;
-const isCustomer  = matchInfo ? matchInfo.customer_id  === user.id : false;
+// const isVolunteer = matchInfo ? matchInfo.volunteer_id === user.id : false;
+// const isCustomer  = matchInfo ? matchInfo.customer_id  === user.id : false;
+const isVolunteer = matchInfo ? matchInfo.volunteer_id === Number(user.id) : false;
+const isCustomer  = matchInfo ? matchInfo.customer_id  === Number(user.id) : false;
   const otherUser = isVolunteer ? matchInfo?.customer : matchInfo?.volunteer;
 
 
