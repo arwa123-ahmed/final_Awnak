@@ -75,9 +75,21 @@ export default function AdminRecharges() {
     rejected: recharges.filter(r => r.status === "rejected").length,
   };
 
-  const filtered = activeTab === "all"
-    ? recharges
-    : recharges.filter(r => r.status === activeTab);
+  // const filtered = activeTab === "all"
+  //   ? recharges
+  //   : recharges.filter(r => r.status === activeTab);
+    const [searchQuery, setSearchQuery] = useState("");
+    const filtered = recharges
+  .filter(r => activeTab === "all" ? true : r.status === activeTab)
+  .filter(r => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      r.user?.name?.toLowerCase().includes(q) ||
+      r.user?.email?.toLowerCase().includes(q) ||
+      r.status?.toLowerCase().includes(q)
+    );
+  });
 
   return (
     <>
@@ -242,6 +254,7 @@ export default function AdminRecharges() {
           .rc-wrap { padding: 20px 14px; }
         }
       `}</style>
+      
 
       <div className="rc-wrap">
         {/* Header */}
@@ -254,6 +267,26 @@ export default function AdminRecharges() {
           </div>
           <button className="rc-refresh" onClick={fetchRecharges}>↻ Refresh</button>
         </div>
+        {/* Search */}
+<div style={{ marginBottom: 20 }}>
+  <input
+    type="text"
+    placeholder="🔍 Search by name, email or status..."
+    value={searchQuery}
+    onChange={e => setSearchQuery(e.target.value)}
+    style={{
+      width: "100%",
+      padding: "10px 16px",
+      borderRadius: 10,
+      border: "1px solid #e5e7eb",
+      fontSize: 13,
+      outline: "none",
+      background: "white",
+      color: "#374151",
+      boxSizing: "border-box",
+    }}
+  />
+</div>
 
         {/* Stats */}
         <div className="rc-stats">
