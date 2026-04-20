@@ -213,13 +213,24 @@ const fetchMatchInfo = useCallback(async () => {
         setLimitReached(status !== "accepted" && data.remaining_messages === 0);
 
         // ✅ use ref so polling closure doesn't go stale
+        // if (data.match_status === "completed" && !ratingDoneRef.current) {
+        //   // check if current user is customer via matchInfo stored in ref
+        //   setShowRatingModal((prev) => {
+        //     if (!prev && !ratingDoneRef.current) return true;
+        //     return prev;
+        //   });
+        // }
         if (data.match_status === "completed" && !ratingDoneRef.current) {
-          // check if current user is customer via matchInfo stored in ref
-          setShowRatingModal((prev) => {
-            if (!prev && !ratingDoneRef.current) return true;
-            return prev;
-          });
-        }
+  // جيب الـ matchInfo من الـ ref عشان تعرف إيه role اليوزر
+  const currentMatch = await fetchMatchInfo();
+  const customerIdFromMatch = currentMatch?.customer_id;
+  if (customerIdFromMatch === Number(user.id)) {
+    setShowRatingModal((prev) => {
+      if (!prev && !ratingDoneRef.current) return true;
+      return prev;
+    });
+  }
+}
 
         if (!silent) setLoading(false);
       } catch (err) {
@@ -328,6 +339,7 @@ const handleDone = async () => {
 
     // ✅ حدّث الـ Navbar فوراً
     window.dispatchEvent(new Event("balanceUpdated"));
+    window.dispatchEvent(new Event("userUpdated"));
 
     alert(`تمت الخدمة ✅ تم إضافة ${res.data.earned_balance} دقيقة`);
     setShowDoneConfirm(false);
@@ -587,7 +599,7 @@ const handleDone = async () => {
       )}
 
       {/* ── Rating Modal (customer) ── */}
-      {showRatingModal && isCustomer && matchInfo && (
+      {showRatingModal && matchInfo && matchInfo.customer_id === Number(user.id) && (
         <RatingModal
           matchId={matchIdInt}
           volunteerName={matchInfo?.volunteer?.name || "Volunteer"}

@@ -55,16 +55,16 @@ const NotificationsPage = () => {
 
       const res = await axios.put(endpoint, { status: action }, { headers });
 
-      // ✅ الخصم بيحصل هنا لما الـ CUSTOMER يعمل accepted
-      if (action === "accepted" && user.role === "customer") {
-        const newBalance = res.data.new_balance;
-        if (newBalance !== undefined) {
-          const updatedUser = { ...user, balance: newBalance };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-          window.dispatchEvent(new Event("balanceUpdated"));
-          alert(`Your remaining balance: ${newBalance} دقيقة`);
-        }
-      }
+      // // ✅ الخصم بيحصل هنا لما الـ CUSTOMER يعمل accepted
+      // if (action === "accepted" && user.role === "customer") {
+      //   const newBalance = res.data.new_balance;
+      //   if (newBalance !== undefined) {
+      //     const updatedUser = { ...user, balance: newBalance };
+      //     localStorage.setItem("user", JSON.stringify(updatedUser));
+      //     window.dispatchEvent(new Event("balanceUpdated"));
+      //     alert(`Your remaining balance: ${newBalance} دقيقة`);
+      //   }
+      // }
 
       setIncomingRequests((prev) =>
         prev.map((r) => (r.id === matchId ? { ...r, status: action } : r))

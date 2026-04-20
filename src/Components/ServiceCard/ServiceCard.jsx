@@ -64,7 +64,10 @@ const ServiceCard = ({ service, type, onAccept }) => {
     if (type === "offers" && currentRole === "customer") {
         const userBalance = parseFloat(user.balance ?? 0);
         const serviceCost = parseFloat(service.timesalary ?? 0);
-        if (userBalance < serviceCost) { setShowBalanceAlert(true); return; }
+         if (userBalance < serviceCost * 1.5) {
+        setShowBalanceAlert(true);
+        return;
+    }
     }
     handleAccept();
 };
