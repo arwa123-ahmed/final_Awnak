@@ -37,10 +37,10 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
     setSubmitting(true);
     try {
       await axios.post(
-        `${API}/report/${matchId}`,
-        { reason },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  `${API}/reports/${matchId}`,
+  { reason },
+  { headers: { Authorization: `Bearer ${token}` } }
+);
       setView("success");
     } catch (err) {
       alert(err.response?.data?.message || "Error submitting report.");
