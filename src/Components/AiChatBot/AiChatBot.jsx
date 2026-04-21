@@ -36,7 +36,61 @@ const AIChatbot = () => {
   }, [messages]);
 
   // ================= SEND MESSAGE =================
-  const handleSend = async () => {
+//   const handleSend = async () => {
+//     if (!input.trim() || isLoading) return;
+
+//     const userMessage = input.trim();
+//     setInput("");
+//     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+//     setIsLoading(true);
+
+//     try {
+//       const token = localStorage.getItem("token");
+
+//       // const response = await fetch("http://72.62.186.133/api/chatbot", {
+//       //   method: "POST",
+//       //   headers: {
+//       //     "Content-Type": "application/json",
+//       //     Authorization: `Bearer ${token}`,
+//       //   },
+//       //   body: JSON.stringify({
+//       //     message: userMessage,
+//       //   }),
+//       // });
+//       const response = await fetch("http://72.62.186.133/api/chatbot", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//     // ✅ بعت الـ token بس لو موجود
+//     ...(localStorage.getItem("token") && {
+//       Authorization: `Bearer ${localStorage.getItem("token")}`,
+//     }),
+//   },
+//   body: JSON.stringify({ message: userMessage }),
+// });
+
+//       const data = await response.json();
+
+//       setMessages((prev) => [
+//         ...prev,
+//         {
+//           role: "assistant",
+//           content: data.reply || "مش فاهم سؤالك 😅",
+//         },
+//       ]);
+//     } catch (error) {
+//       setMessages((prev) => [
+//         ...prev,
+//         {
+//           role: "assistant",
+//           content: "عذراً، حدث خطأ. حاول مرة أخرى.",
+//         },
+//       ]);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
@@ -45,29 +99,16 @@ const AIChatbot = () => {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
-
-      // const response = await fetch("http://72.62.186.133/api/chatbot", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   body: JSON.stringify({
-      //     message: userMessage,
-      //   }),
-      // });
       const response = await fetch("http://72.62.186.133/api/chatbot", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    // ✅ بعت الـ token بس لو موجود
-    ...(localStorage.getItem("token") && {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    }),
-  },
-  body: JSON.stringify({ message: userMessage }),
-});
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(localStorage.getItem("token") && {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }),
+        },
+        body: JSON.stringify({ message: userMessage }), // ✅ بس الرسالة الحالية
+      });
 
       const data = await response.json();
 
