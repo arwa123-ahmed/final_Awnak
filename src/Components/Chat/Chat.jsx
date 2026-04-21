@@ -6,104 +6,176 @@ const API = "http://72.62.186.133/api";
 
 // ===================== Rating Modal =====================
 const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
+  const [view, setView] = useState("rating");
   const [stars, setStars] = useState(0);
   const [hovered, setHovered] = useState(0);
   const [comment, setComment] = useState("");
+  const [reason, setReason] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async () => {
+  const token = localStorage.getItem("token");
+
+  const handleRatingSubmit = async () => {
     if (!stars) return;
     setSubmitting(true);
     try {
-      const token = localStorage.getItem("token");
       await axios.post(
         `${API}/ratings/${matchId}`,
         { stars, comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setView("success");
       onSubmit(stars);
     } catch (err) {
-      console.error(err);
+      alert("Error: " + err.response?.data?.message);
     }
     setSubmitting(false);
   };
-// const handleMarkAsDone = async () => {
-//     try {
-//         const response = await axios.post(
-//             `/api/service-requests/${matchInfo.id}/mark-done`
-//         );
 
-//         if (response.data.success) {
-//             setShowDoneConfirm(false);
-//             // تحديث الـ status في الـ matchInfo
-//             setMatchInfo(prev => ({ ...prev, status: 'done' }));
-//             alert(`تم! تم إضافة ${response.data.volunteering_balance} للرصيد`);
-//         }
-//     } catch (error) {
-//         alert('حدث خطأ، حاول مرة أخرى');
-//     }
-// };
-
+  const handleReportSubmit = async () => {
+    if (!reason.trim()) return;
+    setSubmitting(true);
+    try {
+      await axios.post(
+        `${API}/report/${matchId}`,
+        { reason },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setView("success");
+    } catch (err) {
+      alert(err.response?.data?.message || "Error submitting report.");
+    }
+    setSubmitting(false);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-white dark:!bg-slate-950  rounded-3xl shadow-2xl p-8 w-[90%] max-w-sm flex flex-col items-center gap-5 text-center">
-        <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">
-          🎉
-        </div>
-        <div>
-          <h3 className="text-xl font-bold text-gray-800">Service Completed!</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            How was your experience with{" "}
-            <span className="font-semibold text-gray-700">{volunteerName}</span>?
-          </p>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm flex flex-col items-center gap-6 text-center">
 
-        <div className="flex gap-2">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              onMouseEnter={() => setHovered(star)}
-              onMouseLeave={() => setHovered(0)}
-              onClick={() => setStars(star)}
-              className="text-4xl transition-transform hover:scale-110"
-            >
-              <span className={star <= (hovered || stars) ? "text-yellow-400" : "text-gray-200"}>
-                ★
-              </span>
-            </button>
-          ))}
-        </div>
+        {/* ── Rating View ── */}
+        {view === "rating" && (
+          <>
+            <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">🎉</div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-800">Service Completed!</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                How was your experience with{" "}
+                <span className="font-semibold text-gray-700">{volunteerName}</span>?
+              </p>
+            </div>
 
-        {stars > 0 && (
-          <p className="text-sm font-medium text-gray-600">
-            {["", "Poor", "Fair", "Good", "Very Good", "Excellent!"][stars]}
-          </p>
+            <div className="flex gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  onMouseEnter={() => setHovered(star)}
+                  onMouseLeave={() => setHovered(0)}
+                  onClick={() => setStars(star)}
+                  className="text-4xl transition-transform hover:scale-110 active:scale-90"
+                >
+                  <span className={star <= (hovered || stars) ? "text-yellow-400" : "text-gray-200"}>★</span>
+                </button>
+              ))}
+            </div>
+
+            {stars > 0 && (
+              <p className="text-sm font-medium text-gray-600">
+                {["", "Poor", "Fair", "Good", "Very Good", "Excellent!"][stars]}
+              </p>
+            )}
+
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Leave a comment (optional)..."
+              rows={3}
+              className="w-full border border-gray-100 bg-gray-50 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-200 resize-none"
+            />
+
+            <div className="flex flex-col gap-3 w-full">
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={onClose}
+                  className="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 font-semibold text-sm hover:bg-gray-50 transition"
+                >
+                  Skip
+                </button>
+                <button
+                  onClick={handleRatingSubmit}
+                  disabled={!stars || submitting}
+                  className="flex-1 py-3 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm disabled:opacity-50 transition"
+                >
+                  {submitting ? "Saving..." : "Submit"}
+                </button>
+              </div>
+              <button
+                onClick={() => setView("report")}
+                className="text-xs text-red-400 hover:text-red-500 underline transition"
+              >
+                Report a problem with this user
+              </button>
+            </div>
+          </>
         )}
 
-        <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Leave a comment (optional)..."
-          rows={3}
-          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-green-300 resize-none"
-        />
+        {/* ── Report View ── */}
+        {view === "report" && (
+          <>
+            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center text-3xl">⚠️</div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-800">Report User</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                Tell us what went wrong with{" "}
+                <span className="font-semibold text-red-600">{volunteerName}</span>
+              </p>
+            </div>
 
-        <div className="flex gap-3 w-full">
-          <button
-            onClick={onClose}
-            className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50"
-          >
-            Skip
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={!stars || submitting}
-            className="flex-1 py-2.5 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm disabled:opacity-50 transition"
-          >
-            {submitting ? "Saving..." : "Submit Rating"}
-          </button>
-        </div>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder="Please describe the issue in detail..."
+              rows={4}
+              className="w-full border border-red-50 bg-red-50/30 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-100 resize-none"
+            />
+
+            <div className="flex gap-3 w-full">
+              <button
+                onClick={() => setView("rating")}
+                className="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 font-semibold text-sm hover:bg-gray-50 transition"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleReportSubmit}
+                disabled={!reason.trim() || submitting}
+                className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-sm disabled:opacity-50 transition"
+              >
+                {submitting ? "Sending..." : "Submit Report"}
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* ── Success View ── */}
+        {view === "success" && (
+          <div className="py-4 flex flex-col items-center gap-5">
+            <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center text-5xl">🛡️</div>
+            <div>
+              <h3 className="text-2xl font-bold text-gray-800">Thank You!</h3>
+              <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                Your feedback has been submitted. Our team will review the details regarding{" "}
+                <span className="font-semibold text-gray-700">{volunteerName}</span> and take appropriate action.
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-full mt-2 py-3.5 rounded-2xl bg-gray-900 hover:bg-black text-white font-bold text-sm transition"
+            >
+              Close
+            </button>
+          </div>
+        )}
+
       </div>
     </div>
   );

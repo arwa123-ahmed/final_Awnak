@@ -88,6 +88,7 @@ import LastRegisterPage from "./Components/Registeration/LastRegisterPage.jsx";
 
 //Recharge Balance from Admin 
 import AdminRecharges from "./Components/Admin/AdminRecharge.jsx";
+import AdminReports from "./Components/Admin/AdminReports.jsx";
 
 
 axios.defaults.withCredentials = true;
@@ -165,6 +166,21 @@ const router = createBrowserRouter([
 
  // ADMIN ROUTES
 { path: "/admin/login", element: <AdminLogin /> },
+// {
+//   path: "/admin",
+//   element: (
+//     <AdminProtectedRoute>
+//       <Layout />
+//     </AdminProtectedRoute>
+//   ),
+//   children: [
+//     { index: true, element: <AdminDashboard /> },
+//     { path: "users", element: <AdminUsers /> },
+//     { path: "services", element: <AdminServices /> },
+//     { path: "payments", element: <AdminRecharges /> },
+//     { path: "Reports", element: <AdminReports /> },
+//   ],
+// },
 {
   path: "/admin",
   element: (
@@ -177,6 +193,7 @@ const router = createBrowserRouter([
     { path: "users", element: <AdminUsers /> },
     { path: "services", element: <AdminServices /> },
     { path: "payments", element: <AdminRecharges /> },
+    { path: "Reports", element: <AdminReports /> },
   ],
 },
   
