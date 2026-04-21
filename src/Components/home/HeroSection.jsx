@@ -1,9 +1,14 @@
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import heroLight from "../../images/logoA.png";
 import heroDark from "../../images/logoDark2.1.png"; // ✅ أضيفي صورة الدارك
 
 const HeroSection = () => {
   const isDark = document.documentElement.classList.contains("dark");
+  const { t } = useTranslation();
+    const [showRoleModal, setShowRoleModal] = useState(false);
+  
 
   return (
     <motion.section
@@ -22,18 +27,15 @@ const HeroSection = () => {
           transition={{ delay: 0.2, duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-green-100 leading-[1.3]">
-            Welcome to <span className="text-green-600">Awnak</span>
+            {t("HeroSectionTitle")} <span className="text-green-600">{t("Awnak")}</span>
           </h1>
 
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300">
-            Looking for services delivered by trusted professionals? Request your
-            service now and benefit from expertise ready to meet your needs with
-            top quality.
+           {t("HeroSectionDescp1")}
           </p>
 
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-4">
-            Do you have skills or experience you'd like to share? Join us as a
-            volunteer and help make a real impact in the community.
+           {t("HeroSectionDescp2")}
           </p>
         </motion.div>
 

@@ -43,11 +43,11 @@ const ShippingDetailsSection = () => {
       >
         <h2 className="leading-tight">
           <span className="block text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-green-100">
-            How
+            {t("howItWorksTitle1")}
           </span>
 
           <span className="block text-4xl md:text-6xl font-extrabold text-green-600 dark:text-green-400">
-            It Works
+            {t("howItWorksTitle2")}
           </span>
         </h2>
       </motion.div>

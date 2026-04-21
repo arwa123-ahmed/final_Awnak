@@ -25,7 +25,7 @@ i18n
           customer: "Customers",
           contact: "Contact Us",
           welcome: "Welcome to ",
-          Awnak: "Awnak",
+          Awnak: "Aounak",
           heroTxt1: "Looking for services delivered by trusted professionals? Request your service now and benefit from expertise ready to meet your needs with top quality.",
           heroTxt2: "Do you have skills or experience you’d like to share? Join us as a volunteer and help make a real impact in the community.",
           HCategoriesTitle: "Explore Our Categories",
@@ -134,7 +134,19 @@ i18n
           user:"User",
           rate:"Rates",
           satisfactionRate:"Satisfaction Rate",
-          howItWorksTitle:"How it works ?"
+          howItWorksTitle1:"How ",
+          howItWorksTitle2:"it works ?",
+          HeroSectionTitle:"Welcome to ",
+          HeroSectionDescp1:"Looking for services delivered by trusted professionals? Request your service now and benefit from expertise ready to meet your needs with top quality.",
+          HeroSectionDescp2:"Do you have skills or experience you'd like to share? Join us as a volunteer and help make a real impact in the community.",
+          HSec3t1:"Who do we ",
+          HSec3t2:"serve",
+          HSec3Cp:"People looking for someone to provide services, assist them, or solve their problems.",
+          HSec3Vp:"Individuals who want to make good use of their time by collaborating with clients.",
+
+
+
+
 
 
 
@@ -271,7 +283,17 @@ team: "فريقنا",
           user:"مستخدم",
           rate:"التقيمات",
           satisfactionRate:"نسبة الرضا",
-          howItWorksTitle:"كيف تعمل ؟"
+          howItWorksTitle1:"كيف ",
+          howItWorksTitle2:" تعمل ؟",
+          HeroSectionTitle:"مرحبًا بك في ",
+          HeroSectionDescp1:"هل تبحث عن خدمات يقدمها محترفون موثوقون؟ اطلب خدمتك الآن واستفد من خبرات جاهزة لتلبية احتياجاتك بأعلى جودة.",
+          HeroSectionDescp2:"هل لديك مهارات أو خبرات ترغب في مشاركتها؟ انضم إلينا كمتطوع وساهم في إحداث تأثير حقيقي في المجتمع.",
+          HSec3t1:"من",
+          HSec3t2:"نخــــــــدم" ,
+          HSec3Cp:"الباحثون عن من يقومون بخدماتهم أو مساعدتهم أو حل مشكلاتهم" ,
+          HSec3Vp:"الأشخاص الذين يريدون استغلال أوقاتهم بطريقة صحيحة بالتعاون مع العملاء",
+
+
 
 
 

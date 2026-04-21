@@ -47,16 +47,27 @@ const AIChatbot = () => {
     try {
       const token = localStorage.getItem("token");
 
+      // const response = await fetch("http://72.62.186.133/api/chatbot", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify({
+      //     message: userMessage,
+      //   }),
+      // });
       const response = await fetch("http://72.62.186.133/api/chatbot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          message: userMessage,
-        }),
-      });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    // ✅ بعت الـ token بس لو موجود
+    ...(localStorage.getItem("token") && {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    }),
+  },
+  body: JSON.stringify({ message: userMessage }),
+});
 
       const data = await response.json();
 
