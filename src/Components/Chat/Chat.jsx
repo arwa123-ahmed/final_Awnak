@@ -51,16 +51,16 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm flex flex-col items-center gap-6 text-center">
+      <div className="bg-white  dark:!bg-slate-700 rounded-3xl shadow-2xl p-8 w-full max-w-sm flex flex-col items-center gap-6 text-center">
 
         {/* ── Rating View ── */}
         {view === "rating" && (
           <>
             <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">🎉</div>
             <div>
-              <h3 className="text-xl font-bold text-gray-800">{t("serviceCompleted")}</h3>
-              <p className="text-sm text-gray-500 mt-1">
-               {t("howWasExperience")} <span className="font-semibold text-gray-700">{volunteerName}</span>?
+              <h3 className="text-xl font-bold text-gray-800 dark:text-green-200">{t("serviceCompleted")}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-200 mt-1">
+               {t("howWasExperience")} <span className="font-semibold text-gray-700 dark:text-green-500">{volunteerName}</span>?
               </p>
             </div>
 
@@ -80,7 +80,7 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
 
             {stars > 0 && (
               <p className="text-sm font-medium text-gray-600">
-                {["", "Poor", "Fair", "Good", "Very Good", "Excellent!"][stars]}
+                {["", t("poor"), t("fair"), t("good"),  t("veryGood"), t("excellent")][stars]}
               </p>
             )}
 
@@ -89,30 +89,30 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Leave a comment (optional)..."
               rows={3}
-              className="w-full border border-gray-100 bg-gray-50 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-200 resize-none"
+              className="w-full border border-gray-100 bg-gray-50 dark:bg-slate-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-200 resize-none"
             />
 
             <div className="flex flex-col gap-3 w-full">
               <div className="flex gap-3 w-full">
                 <button
                   onClick={onClose}
-                  className="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 font-semibold text-sm hover:bg-gray-50 transition"
+                  className="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 dark:text-gray-200 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                 >
-                  Skip
+                 {t("skip")}
                 </button>
                 <button
                   onClick={handleRatingSubmit}
                   disabled={!stars || submitting}
-                  className="flex-1 py-3 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm disabled:opacity-50 transition"
+                  className="flex-1 py-3 rounded-xl bg-green-300 dark:bg-green-500 hover:bg-green-400 dark:hover:bg-green-700 text-white dark:!text-slate-800 font-bold text-sm disabled:opacity-50 transition"
                 >
-                  {submitting ? "Saving..." : "Submit"}
+                  {submitting ? t("saving") : t("submit")}
                 </button>
               </div>
               <button
                 onClick={() => setView("report")}
-                className="text-xs text-red-400 hover:text-red-500 underline transition"
+                className="text-xs text-red-400 dark:text-red-300 hover:text-red-500 underline transition"
               >
-                Report a problem with this user
+                {t("reportProblem")}
               </button>
             </div>
           </>
@@ -123,10 +123,10 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
           <>
             <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center text-3xl">⚠️</div>
             <div>
-              <h3 className="text-xl font-bold text-gray-800">Report User</h3>
-              <p className="text-sm text-gray-500 mt-1">
-                Tell us what went wrong with{" "}
-                <span className="font-semibold text-red-600">{volunteerName}</span>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-green-200">{t("reportUser")}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-200 mt-1">
+               {t("tellUsWhatWentWrong")}
+                <span className="font-semibold text-red-600 dark:text-red-300">{volunteerName}</span>
               </p>
             </div>
 
@@ -143,14 +143,14 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
                 onClick={() => setView("rating")}
                 className="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 font-semibold text-sm hover:bg-gray-50 transition"
               >
-                Back
+                {t("back")}
               </button>
               <button
                 onClick={handleReportSubmit}
                 disabled={!reason.trim() || submitting}
                 className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-sm disabled:opacity-50 transition"
               >
-                {submitting ? "Sending..." : "Submit Report"}
+                {submitting ?  t("sending") : t("submitReport")}
               </button>
             </div>
           </>
@@ -161,17 +161,16 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
           <div className="py-4 flex flex-col items-center gap-5">
             <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center text-5xl">🛡️</div>
             <div>
-              <h3 className="text-2xl font-bold text-gray-800">Thank You!</h3>
-              <p className="text-sm text-gray-500 mt-3 leading-relaxed">
-                Your feedback has been submitted. Our team will review the details regarding{" "}
-                <span className="font-semibold text-gray-700">{volunteerName}</span> and take appropriate action.
+              <h3 className="text-2xl font-bold text-gray-800">{t("thankYou")}</h3>
+              <p className="text-sm text-gray-500 mt-3 leading-relaxed">{t("feedbackSubmitted")}
+                <span className="font-semibold text-gray-700">{volunteerName}</span> {t("takeAppropriateAction")}
               </p>
             </div>
             <button
               onClick={onClose}
               className="w-full mt-2 py-3.5 rounded-2xl bg-gray-900 hover:bg-black text-white font-bold text-sm transition"
             >
-              Close
+              {t("close")}
             </button>
           </div>
         )}
@@ -469,14 +468,14 @@ const handleDone = async () => {
         <div className="flex-1">
         
           {/* ── Header status text ── */}
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 dark:text-gray-300">
             {matchInfo?.status === "accepted"
-              ? "✅ Active • Unlimited messages"
+              ?`✅ ${t("activeUnlimited")}`
               : matchInfo?.status === "completed"
-                ? `🔒 Completed • ${remaining ?? 0} msgs left`
+                ? `🔒 ${t("completed")} • ${remaining ?? 0} ${t("msgsLeft")}`
                 : matchInfo?.status === "inquiry"
-                  ? `💬 Inquiry • ${remaining ?? 30} msgs left`
-                  : `⏳ Pending • ${remaining ?? 30} msgs left`}
+                  ?  `💬 ${t("inquiry")} • ${remaining ?? 30} ${t("msgsLeft")}`
+                  :  `⏳ ${t("pending")} • ${remaining ?? 30} ${t("msgsLeft")}`}
           </p>
         </div>
 
@@ -496,7 +495,7 @@ const handleDone = async () => {
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50">
         {messages.length === 0 && (
           <div className="text-center text-gray-400 text-sm py-10">
-            No messages yet. Say hi! 👋
+            {t("noMessages")} 👋
             {!isAccepted && remaining !== null && (
               <p className="mt-2 text-amber-500 text-xs">
                 ⚠️ You have {remaining} messages before acceptance
@@ -521,8 +520,8 @@ const handleDone = async () => {
               )}
               <div
                 className={`max-w-[70%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${isMine
-                  ? "bg-green-300  text-white rounded-br-sm"
-                  : "bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm"
+                  ? "bg-green-300 dark:!bg-slate-950  text-white rounded-br-sm"
+                  : "bg-white dark:!bg-slate-200 dark:bg-slate-600 text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm"
                   } ${msg.temp ? "opacity-70" : ""}`}
               >
                 <p className="whitespace-pre-wrap break-words">{msg.message}</p>
@@ -553,10 +552,10 @@ const handleDone = async () => {
   <div className="px-4 py-2.5 bg-amber-50 border-t border-amber-100 text-center">
     <p className="text-xs text-amber-600 font-medium">
       {matchInfo?.status === "completed"
-        ? "🔒 Post-service message limit reached."
+        ? `🔒 ${t("postServiceLimit")}`
         : matchInfo?.status === "inquiry"
-        ? "💬 Inquiry limit reached. Place an order to continue."  // ✅ جديد
-        : "⏳ Message limit reached. Waiting for acceptance."}
+        ? `💬 ${t("inquiryLimit")}` 
+        : `⏳ ${t("messageLimitReached")}`}
     </p>
   </div>
 )}
@@ -568,7 +567,7 @@ const handleDone = async () => {
             onClick={() => setShowDoneConfirm(true)}
             className="w-full py-2 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm transition"
           >
-            ✓ Mark as Done
+            ✓ {t("markAsDone")}
           </button>
         </div>
       )}
@@ -582,13 +581,12 @@ const handleDone = async () => {
           placeholder={
             matchInfo?.status === "completed" && !limitReached
               ? "Type a message..."
-              : limitReached
-                ? "Message limit reached..."
-                : "Type a message..."
+              : limitReached ?
+                 t("messageLimitReachedPlaceholder") : t("typeMessage")
           }
           // disabled={limitReached || matchInfo?.status === "completed"}
           disabled={limitReached}
-          className="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-green-300 disabled:bg-gray-50 disabled:text-gray-400"
+          className="flex-1 border border-gray-200 dark:border-slate-600 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-green-300 disabled:bg-gray-50 dark:disabled:bg-slate-600 bg-white dark:!bg-slate-700 text-gray-800 dark:text-white disabled:text-gray-400"
         />
         <button
           onClick={handleSend}
@@ -612,23 +610,23 @@ const handleDone = async () => {
             <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center text-3xl">
               ✅
             </div>
-            <h3 className="text-lg font-bold text-gray-800">Mark as Done?</h3>
+            <h3 className="text-lg font-bold text-gray-800">{t("markAsDoneQuestion")}</h3>
             <p className="text-sm text-gray-500">
-              This will complete the service and notify the customer to rate you.
+              {t("markAsDoneDesc")}
             </p>
             <div className="flex gap-3 w-full">
               <button
                 onClick={() => setShowDoneConfirm(false)}
                 className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={handleDone}
                 disabled={markingDone}
                 className="flex-1 py-2.5 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm disabled:opacity-60"
               >
-                {markingDone ? "..." : "Yes, Done!"}
+                {markingDone ? "..." :  t("yesDone")}
               </button>
             </div>
           </div>

@@ -233,7 +233,8 @@ const MainNavBar = ({ userLevel }) => {
                           }}
                         />
                       </MenuButton>
-                      <MenuItems className="absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-2xl bg-white dark:bg-gray-800 py-2 shadow-xl ring-1 ring-black/5 dark:ring-white/10 focus:outline-none">
+                     <MenuItems className="absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-2xl bg-white dark:!bg-gray-800 py-2 shadow-xl ring-1 ring-black/5 dark:ring-white/10 focus:outline-none ltr:right-0 rtl:left-0 rtl:right-auto">
+
                         {/* User Info */}
                         <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
                           <p className="text-sm font-bold text-gray-800 dark:text-green-100 truncate">{user?.name}</p>
@@ -256,15 +257,6 @@ const MainNavBar = ({ userLevel }) => {
                           </button>
                         </MenuItem>
 
-                        {/* Settings in dropdown for mobile */}
-                        <MenuItem>
-                          <button
-                            className="sm:hidden flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full text-left transition"
-                            onClick={() => navigate("/settings")}
-                          >
-                            {t("settings") || "Settings"}
-                          </button>
-                        </MenuItem>
 
                         <MenuItem>
                           <button
@@ -289,37 +281,58 @@ const MainNavBar = ({ userLevel }) => {
             </div>
           </div>
 
+          
           {/* Mobile Menu */}
-          <DisclosurePanel className="sm:hidden border-t border-gray-100 dark:border-gray-700">
-            <div className="px-4 py-3 space-y-1 bg-white dark:bg-gray-900">
-              {navigation.map((item) => (
-                <NavLink
-                  key={item.name}
-                  to={item.href}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "block px-3 py-2 rounded-xl text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20"
-                      : "block px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-                  }
-                >
-                  {item.name}
-                </NavLink>
-              ))}
+<DisclosurePanel className="sm:hidden border-t border-gray-100 dark:border-gray-700">
+  <div className="px-4 py-3 space-y-1 bg-white dark:!bg-gray-900">
+    {navigation.map((item) => (
+      <NavLink
+        key={item.name}
+        to={item.href}
+        className={({ isActive }) =>
+          isActive
+            ? "block px-3 py-2 rounded-xl text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20"
+            : "block px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+        }
+      >
+        {item.name}
+      </NavLink>
+    ))}
 
-              {isLoggedIn && (
-                <button
-                  onClick={() => navigate("/notifications")}
-                  className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-                >
-                  <FontAwesomeIcon icon={faBell} />
-                  Notifications
-                  {notifCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs px-1.5 rounded-full">{notifCount}</span>
-                  )}
-                </button>
-              )}
-            </div>
-          </DisclosurePanel>
+    {isLoggedIn && (
+      <>
+        <button
+          onClick={() => navigate("/notifications")}
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+        >
+          <FontAwesomeIcon icon={faBell} />
+          {t("notifications")}
+          {notifCount > 0 && (
+            <span className="bg-red-500 text-white text-xs px-1.5 rounded-full">{notifCount}</span>
+          )}
+        </button>
+
+        {/* ✅ Dark Mode في الموبايل */}
+        <button
+          onClick={toggleDarkMode}
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+        >
+          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+          {darkMode ? t("lightMode") : t("darkMode")}
+        </button>
+
+        {/* ✅ Settings في الموبايل */}
+        <button
+          onClick={() => navigate("/settings")}
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm text-gray-700 dark:text-green-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+        >
+          <FontAwesomeIcon icon={faGear} />
+          {t("settings") || "Settings"}
+        </button>
+      </>
+    )}
+  </div>
+</DisclosurePanel>
         </>
       )}
     </Disclosure>

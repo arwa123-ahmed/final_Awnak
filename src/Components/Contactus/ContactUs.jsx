@@ -125,7 +125,7 @@ export default function ContactForm() {
                 {/* Right Side – Form */}
                 <motion.div
                     {...fadeRight}
-                    className="w-full p-10 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-green-100 dark:border-gray-700"
+                    className="w-full p-10 bg-white dark:!bg-gray-800 rounded-3xl shadow-2xl border border-green-100 dark:border-gray-700"
                 >
                     {/* ✅ رسالة النجاح */}
                     {status === "success" && (
@@ -152,7 +152,7 @@ export default function ContactForm() {
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 w-full border border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
+                                className="flex-1 w-full border border-green-300 dark:border-gray-600  rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:!bg-gray-700 text-gray-800 dark:text-green-100"
                             />
                         </div>
 
@@ -165,7 +165,7 @@ export default function ContactForm() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
+                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:!bg-gray-700 text-gray-800 dark:text-green-100"
                             />
                         </div>
 
@@ -178,7 +178,7 @@ export default function ContactForm() {
                                 value={formData.subject}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
+                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:!bg-gray-700 text-gray-800 dark:text-green-100"
                             />
                         </div>
 
@@ -191,7 +191,7 @@ export default function ContactForm() {
                                 value={formData.message}
                                 onChange={handleChange}
                                 required
-                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-green-100"
+                                className="flex-1 border w-full border-green-300 dark:border-gray-600 rounded-xl p-3 focus:outline-none focus:border-green-600 dark:focus:border-green-400 bg-white dark:!bg-gray-700 text-gray-800 dark:text-green-100"
                             ></textarea>
                         </div>
 

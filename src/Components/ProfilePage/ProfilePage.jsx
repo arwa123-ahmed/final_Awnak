@@ -2,10 +2,13 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChatPage from "../Chat/Chat";
+import { useTranslation } from "react-i18next";
+
 
 const API = "http://72.62.186.133/api";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -107,12 +110,13 @@ export default function ProfilePage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:!bg-slate-700">
         <div className="text-center text-gray-500 dark:text-gray-50">
           <p className="text-4xl mb-3">👤</p>
-          <p>User not found</p>
+          <p>{t("userNotFound")}</p>
           <button
             onClick={() => navigate(-1)}
             className="mt-4 text-green-500 dark:text-green-200 underline text-sm"
           >
-            Go back
+           {t("goBack")}
+
           </button>
         </div>
       </div>
@@ -134,7 +138,7 @@ export default function ProfilePage() {
               onClick={() => navigate(-1)}
               className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm text-gray-500 hover:text-gray-700 transition text-sm px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm"
             >
-              ← Back
+             ← {t("back")}
             </button>
           </div>
 
@@ -169,8 +173,7 @@ export default function ProfilePage() {
                 }`}
               >
                 {profileUser.role === "volunteer"
-                  ? "🙋 Volunteer"
-                  : "🛒 Customer"}
+                  ? `🙋 ${t("volunteer")}` : `🛒 ${t("customer")}`}
               </span>
             )}
 
@@ -183,14 +186,14 @@ export default function ProfilePage() {
                 <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                   {profileUser.ratings_count || 0}
                 </p>
-                <p className="text-xs text-gray-400">Reviews</p>
+                <p className="text-xs text-gray-400">{t("reviews")}</p>
               </div>
               <div className="w-px bg-gray-100 dark:!bg-gray-50" />
               <div className="flex flex-col items-center gap-0.5">
                 <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                   {parseFloat(profileUser.average_rating || 0).toFixed(1)}
                 </p>
-                <p className="text-xs text-gray-400">Avg Rating</p>
+                <p className="text-xs text-gray-400">{t("avgRating")}</p>
               </div>
             </div>
 
@@ -199,8 +202,8 @@ export default function ProfilePage() {
               {renderStars(profileUser.average_rating)}
               <p className="text-xs text-gray-400">
                 {profileUser.ratings_count
-                  ? `Based on ${profileUser.ratings_count} review${profileUser.ratings_count > 1 ? "s" : ""}`
-                  : "No reviews yet"}
+                  ? `${t("basedOn")} ${profileUser.ratings_count} ${t("review")}${profileUser.ratings_count > 1 ? "s" : ""}`
+    : t("noReviews")}
               </p>
             </div>
 
@@ -231,7 +234,7 @@ export default function ProfilePage() {
       disabled={inquiryLoading}
       className="w-full py-3 rounded-2xl bg-green-300 dark:bg-green-400 dark:!text-sky-950 hover:bg-green-400 dark:hover:bg-green-300  active:scale-95 text-white font-bold text-sm transition-all disabled:opacity-60"
     >
-      {inquiryLoading ? "Loading..." : showChat ? "✕ Close Chat" : "💬 Chat"}
+      {inquiryLoading ? t("loading") : showChat ? `✕ ${t("closeChat")}` : `💬 ${t("chat")}`}
     </button>
   </>
 )}

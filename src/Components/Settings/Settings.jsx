@@ -59,7 +59,7 @@ const Settings = () => {
 
   // ── Toggle Card ──
   const ToggleCard = ({ icon, label, checked, onChange, sublabel }) => (
-    <div className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-2xl px-5 py-4 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+    <div className="flex items-center justify-between bg-white dark:!bg-gray-800 rounded-2xl px-5 py-4 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-xl bg-green-50 dark:bg-green-900/30 flex items-center justify-center">
           {icon}
@@ -85,7 +85,7 @@ const Settings = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:!bg-gray-900 transition-colors duration-300">
       <div className="max-w-lg mx-auto px-4 py-8">
 
         {/* Header */}
@@ -96,7 +96,7 @@ const Settings = () => {
         </div>
 
         {/* User Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+        <div className="bg-white dark:!bg-gray-800 rounded-2xl p-5 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
           {loading ? (
             <div className="flex items-center gap-4 animate-pulse">
               <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
