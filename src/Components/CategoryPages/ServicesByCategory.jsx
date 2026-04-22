@@ -4,8 +4,10 @@ import axios from "axios";
 import ServiceCard from "../ServiceCard/ServiceCard";
 import { FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const ServicesByCategory = ({ type }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
 
   const [services, setServices] = useState([]);
@@ -103,16 +105,14 @@ const ServicesByCategory = ({ type }) => {
             <FaLock />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-3">
-            Account Not Activated
+            {t("accountNotActivated")}
           </h2>
           <p className="text-gray-500 text-sm leading-relaxed mb-6">
-            Your account is currently not activated.
-            <br />
-            Please wait until it gets approved by the admin.
+            
+           {t("accountActivatedNote")}
           </p>
           <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 text-xs text-gray-400">
-            Once your account is activated, you will be able to access all
-            features.
+            {t("accountNotActivatedDesc")}
           </div>
         </motion.div>
       </div>
@@ -120,12 +120,12 @@ const ServicesByCategory = ({ type }) => {
   }
 
   if (loading) {
-    return <p className="text-center mt-10">Loading services...</p>;
+    return <p className="text-center mt-10">{t("loadingServices")}</p>;
   }
 
   return (
     <div className="max-w-6xl mx-auto py-20 px-6">
-      <h2 className="text-3xl font-bold mb-10 text-center">Services</h2>
+      <h2 className="text-3xl font-bold mb-10 text-center">{t("services")}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {services.map((service) => (
           <ServiceCard key={service.id} service={service} type={type} />

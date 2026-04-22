@@ -7,17 +7,17 @@ const FirstSection = () => {
 
       <div className="relative w-[95%] h-[85vh] rounded-3xl overflow-hidden shadow-2xl">
 
-        {/* Background Image - أغمق في الدارك مود */}
+        {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-300 dark:brightness-75"
           style={{ backgroundImage: `url(${handshake})` }}
         />
 
-        {/* Overlay - أغمق وأكتر خضرة في الدارك مود */}
+        {/* Overlay */}
         <div className="absolute inset-0 
           bg-gradient-to-r from-black/60 via-green-900/30 to-green-600/20
           dark:from-black/80 dark:via-gray-900/60 dark:to-green-900/40
-          transition-all duration-300" 
+          transition-all duration-300"
         />
 
         {/* Content */}

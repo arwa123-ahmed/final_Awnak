@@ -56,15 +56,15 @@ dark:from-gray-900  rounded-[50px] dark:to-green-9500 dark:via-slate-800 dark:to
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <motion.h2 
+            <motion.h2
               className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 dark:from-blue-400 dark:via-green-500 dark:to-teal-400 bg-clip-text text-transparent"
-              animate={{ 
+              animate={{
                 backgroundPosition: ['0%', '100%', '0%'],
               }}
-              transition={{ 
+              transition={{
                 duration: 5,
                 repeat: Infinity,
-                ease: "linear" 
+                ease: "linear"
               }}
             >
               آراء عملائنا
@@ -78,20 +78,20 @@ dark:from-gray-900  rounded-[50px] dark:to-green-9500 dark:via-slate-800 dark:to
           <div className="relative overflow-hidden">
             <motion.div
               className="flex gap-8"
-              animate={{ 
-                x: [0, -(320 * reviews.length)] 
+              animate={{
+                x: [0, -(320 * reviews.length)]
               }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 25, 
-                ease: "linear" 
+              transition={{
+                repeat: Infinity,
+                duration: 25,
+                ease: "linear"
               }}
             >
               {[...reviews, ...reviews].map((review, index) => (
                 <motion.div
                   key={index}
                   className="min-w-[300px] p-8 rounded-3xl backdrop-blur-lg border transition-all duration-300 bg-white/80 border-slate-200 shadow-2xl shadow-slate-300/50 dark:bg-slate-800/50 dark:border-slate-700/50 dark:shadow-2xl dark:shadow-green-500/10"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     y: -10,
                     transition: { duration: 0.3 }
@@ -122,11 +122,10 @@ dark:from-gray-900  rounded-[50px] dark:to-green-9500 dark:via-slate-800 dark:to
                             transition={{ delay: i * 0.1 }}
                           >
                             <Star
-                              className={`w-4 h-4 ${
-                                i < review.rating
+                              className={`w-4 h-4 ${i < review.rating
                                   ? 'fill-yellow-400 text-yellow-400'
                                   : 'text-slate-300 dark:text-slate-600'
-                              }`}
+                                }`}
                             />
                           </motion.div>
                         ))}
@@ -160,8 +159,8 @@ dark:from-gray-900  rounded-[50px] dark:to-green-9500 dark:via-slate-800 dark:to
           >
             {[
               { number: "1000+", label: t("user") },
-              { number: "4.9" ,label: t("rate") },
-              { number: "99.9%" ,label: t("rate") },
+              { number: "4.9", label: t("rate") },
+              { number: "99.9%", label: t("rate") },
             ].map((stat, index) => (
               <motion.div
                 key={index}

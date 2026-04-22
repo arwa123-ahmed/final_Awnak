@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AddServiceFAB = () => {
+    const { t  , i18n} = useTranslation();
+
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [categories, setCategories] = useState([]);
@@ -73,45 +76,45 @@ const AddServiceFAB = () => {
             console.error(err);
         }
     };
-  
-const handleSubmit = async () => {
-    if (!form.name || !form.category_id || !form.timesalary) return;
 
-    setSubmitting(true);
-    try {
-        const token = localStorage.getItem("token");
-        const res = await axios.post(
-            "http://72.62.186.133/api/services",
-            form,
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
+    const handleSubmit = async () => {
+        if (!form.name || !form.category_id || !form.timesalary) return;
 
-        // ✅ غيّر الاسم من service لـ newService
-        const newService = res.data.service;
-        console.log("newService:", newService);
+        setSubmitting(true);
+        try {
+            const token = localStorage.getItem("token");
+            const res = await axios.post(
+                "http://72.62.186.133/api/services",
+                form,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-        setIsOpen(false);
-        setForm({
-            name: "",
-            description: "",
-            timesalary: "",
-            service_location: "",
-            category_id: "",
-            type: defaultType,
-        });
+            // ✅ غيّر الاسم من service لـ newService
+            const newService = res.data.service;
+            console.log("newService:", newService);
 
-        // ✅ navigate حسب الـ type
-        if (newService.type === "offer") {
-            navigate(`/customer/category/${newService.category_id}`);
-        } else {
-            navigate(`/volunteer/category/${newService.category_id}`);
+            setIsOpen(false);
+            setForm({
+                name: "",
+                description: "",
+                timesalary: "",
+                service_location: "",
+                category_id: "",
+                type: defaultType,
+            });
+
+            // ✅ navigate حسب الـ type
+            if (newService.type === "offer") {
+                navigate(`/customer/category/${newService.category_id}`);
+            } else {
+                navigate(`/volunteer/category/${newService.category_id}`);
+            }
+
+        } catch (err) {
+            console.error(err);
         }
-
-    } catch (err) {
-        console.error(err);
-    }
-    setSubmitting(false);
-};
+        setSubmitting(false);
+    };
     return (
         <>
             {/* ===== FAB Button ===== */}
@@ -120,9 +123,9 @@ const handleSubmit = async () => {
                 className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-green-300 hover:bg-green-400 text-white rounded-full shadow-lg flex items-center justify-center text-3xl transition-all duration-200 active:scale-90"
             >
                 +
-                
+
             </button>
-      
+
 
             {/* ===== Modal ===== */}
             {isOpen && (
@@ -131,7 +134,7 @@ const handleSubmit = async () => {
 
                         {/* Header */}
                         <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">Add New Service</h2>
+                            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">{t("addNewService")}</h2>
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
@@ -144,22 +147,22 @@ const handleSubmit = async () => {
 
                         {/* Name */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Service Name</label>
+                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{t("serviceName")}</label>
                             <input
                                 value={form.name}
                                 onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                                placeholder="e.g. Delivery, Translation..."
+                                placeholder={t("serviceNamePlaceholder")}
                                 className="border border-gray-200 dark:!border-gray-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-green-300 dark:bg-slate-800 dark:focus:border-green-400"
                             />
                         </div>
 
                         {/* Description */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Description</label>
+                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{t("description")}</label>
                             <textarea
                                 value={form.description}
                                 onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
-                                placeholder="Describe the service..."
+                                placeholder={t("descriptionPlaceholder")}
                                 rows={3}
                                 className="border border-gray-200 dark:!border-gray-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-green-300 resize-none dark:bg-slate-800"
                             />
@@ -168,7 +171,7 @@ const handleSubmit = async () => {
                         {/* Time + Location */}
                         <div className="flex gap-3">
                             <div className="flex flex-col gap-1 flex-1">
-                                <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Time (min)</label>
+                                <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{t("timeMin")}</label>
                                 <input
                                     type="number"
                                     value={form.timesalary}
@@ -178,11 +181,11 @@ const handleSubmit = async () => {
                                 />
                             </div>
                             <div className="flex flex-col gap-1 flex-1">
-                                <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Location</label>
+                                <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{t("location")}</label>
                                 <input
                                     value={form.service_location}
                                     onChange={(e) => setForm((p) => ({ ...p, service_location: e.target.value }))}
-                                    placeholder="e.g. Cairo, Maadi..."
+                                    placeholder={t("locationPlaceholder")}
                                     className="border border-gray-200 dark:!border-gray-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-green-300 dark:bg-slate-800"
                                 />
                             </div>
@@ -190,24 +193,25 @@ const handleSubmit = async () => {
 
                         {/* Category */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400 ">Category</label>
+                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400 ">{t("category")}</label>
                             <select
                                 value={form.category_id}
                                 onChange={(e) => setForm((p) => ({ ...p, category_id: e.target.value }))}
                                 className="border border-gray-200 dark:!border-gray-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-green-300 bg-white dark:!bg-slate-800"
                             >
-                                <option value="">Select a category...</option>
+                                <option value="">{t("selectCategory")}</option>
                                 {categories.map((cat) => (
                                     <option key={cat.id} value={cat.id}>
-                                        {cat.en_name || cat.name}
+                                        {i18n.language === "ar" ? (cat.ar_name || cat.en_name || cat.name) : (cat.en_name || cat.name)}
                                     </option>
                                 ))}
+
                             </select>
                         </div>
 
                         {/* Type Radio */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Service Type</label>
+                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{t("serviceType")}</label>
                             <div className="flex gap-4">
                                 <label className="flex items-center gap-2 cursor-pointer">
                                     <input
@@ -218,7 +222,7 @@ const handleSubmit = async () => {
                                         onChange={() => handleTypeChange("offer")}
                                         className="accent-green-400"
                                     />
-                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-400">🙋 Offer Service</span>
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-400">🙋 {t("offerService")}</span>
                                 </label>
                                 <label className="flex items-center gap-2 cursor-pointer">
                                     <input
@@ -229,7 +233,7 @@ const handleSubmit = async () => {
                                         onChange={() => handleTypeChange("request")}
                                         className="accent-green-400"
                                     />
-                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-400">🛒 Request Service</span>
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-400">🛒 {t("requestService")}</span>
                                 </label>
                             </div>
                         </div>
@@ -242,11 +246,11 @@ const handleSubmit = async () => {
                             disabled={submitting || !form.name || !form.category_id || !form.timesalary}
                             className={`w-full py-3 rounded-2xl font-bold text-white text-sm tracking-wide transition-all duration-200
                 ${submitting || !form.name || !form.category_id || !form.timesalary
-                                    ? "bg-green-200cursor-not-allowed"
+                                    ? "bg-green-200 cursor-not-allowed"
                                     : "bg-green-300 dark:!bg-green-300 dark:!text-sky-950 hover:bg-green-400 active:scale-95"
                                 }`}
                         >
-                            {submitting ? "Adding..." : " Add Service"}
+                            {submitting ? t("adding") : t("addService")}
                         </button>
 
                     </div>
@@ -262,11 +266,10 @@ const handleSubmit = async () => {
                             ⚠️
                         </div>
 
-                        <h3 className="text-lg font-bold text-gray-800">Change Your Role?</h3>
+                        <h3 className="text-lg font-bold text-gray-800">{t("changeRole")}</h3>
                         <p className="text-sm text-gray-500">
-                            {role === "volunteer"
-                                ? "To request a service, you need to switch your role to Customer. Do you want to change?"
-                                : "To offer a service, you need to switch your role to Volunteer. Do you want to change?"}
+                            {role === "volunteer" ?
+                                t("switchToCustomer") : t("switchToVolunteer")}
                         </p>
 
                         <div className="flex gap-3 w-full">
@@ -274,13 +277,13 @@ const handleSubmit = async () => {
                                 onClick={() => setShowRoleAlert(false)}
                                 className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50"
                             >
-                                No, Cancel
+                                {t("noCancel")}
                             </button>
                             <button
                                 onClick={handleChangeRole}
                                 className="flex-1 py-2.5 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm"
                             >
-                                Yes, Change
+                                {t("yesChange")}
                             </button>
                         </div>
 

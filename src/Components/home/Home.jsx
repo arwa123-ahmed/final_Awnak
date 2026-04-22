@@ -27,14 +27,14 @@ const Home = () => {
   const handleRoleSelected = (role) => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     localStorage.setItem("user", JSON.stringify({ ...user, role }));
-    localStorage.removeItem("showRoleMessage"); // امسح الـ flag
+    localStorage.removeItem("showRoleMessage");
     setShowRoleModal(false);
   };
 
   return (
     <>
       <ProtectedWrapper>
-        {/* Role Modal - أعلى الصفحة */}
+        {/* Role Modal*/}
         {showRoleModal && (
           <RoleSelectionModal onRoleSelected={handleRoleSelected} />
         )}

@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const AIChatbot = () => {
+  const { t} = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   // ✅ Load messages from localStorage
@@ -194,7 +196,7 @@ const handleSend = async () => {
                   <Bot className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-base">مساعد عونك</h3>
+                  <h3 className="font-bold text-base">{t("AounakHelper")}</h3>
                 </div>
               </div>
             </div>
@@ -214,8 +216,8 @@ const handleSend = async () => {
                   <div
                     className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
                       message.role === "user"
-                        ? "bg-blue-500 dark:bg-blue-600"
-                        : "bg-green-500 dark:bg-green-600"
+                        ? "bg-blue-500 dark:!bg-blue-600"
+                        : "bg-green-500 dark:!bg-green-600"
                     }`}
                   >
                     {message.role === "user" ? (
@@ -247,7 +249,7 @@ const handleSend = async () => {
                   <div className="w-9 h-9 rounded-full bg-green-500 dark:bg-green-600 flex items-center justify-center">
                     <Bot className="w-5 h-5 text-white" />
                   </div>
-                  <div className="bg-white dark:bg-slate-800 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-slate-100 dark:border-slate-700">
+                  <div className="bg-white dark:!bg-slate-800 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-slate-100 dark:border-slate-700">
                     <Loader2 className="w-4 h-4 animate-spin" />
                   </div>
                 </motion.div>
@@ -257,7 +259,7 @@ const handleSend = async () => {
             </div>
 
             {/* Input */}
-            <div className="px-4 py-3 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
+            <div className="px-4 py-3 bg-white dark:!bg-slate-800 border-t border-slate-200 dark:border-slate-700">
               <div className="flex gap-2">
                 <input
                   type="text"

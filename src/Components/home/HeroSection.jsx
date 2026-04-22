@@ -7,8 +7,8 @@ import heroDark from "../../images/logoDark2.1.png"; // ✅ أضيفي صورة 
 const HeroSection = () => {
   const isDark = document.documentElement.classList.contains("dark");
   const { t } = useTranslation();
-    const [showRoleModal, setShowRoleModal] = useState(false);
-  
+  const [showRoleModal, setShowRoleModal] = useState(false);
+
 
   return (
     <motion.section
@@ -31,11 +31,11 @@ const HeroSection = () => {
           </h1>
 
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300">
-           {t("HeroSectionDescp1")}
+            {t("HeroSectionDescp1")}
           </p>
 
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-4">
-           {t("HeroSectionDescp2")}
+            {t("HeroSectionDescp2")}
           </p>
         </motion.div>
 

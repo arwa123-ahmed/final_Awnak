@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useTranslation } from "react-i18next";
 const API = "http://72.62.186.133/api";
 
 // ===================== Rating Modal =====================
 const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
+  const { t } = useTranslation();
   const [view, setView] = useState("rating");
   const [stars, setStars] = useState(0);
   const [hovered, setHovered] = useState(0);
@@ -57,10 +58,9 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
           <>
             <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">🎉</div>
             <div>
-              <h3 className="text-xl font-bold text-gray-800">Service Completed!</h3>
+              <h3 className="text-xl font-bold text-gray-800">{t("serviceCompleted")}</h3>
               <p className="text-sm text-gray-500 mt-1">
-                How was your experience with{" "}
-                <span className="font-semibold text-gray-700">{volunteerName}</span>?
+               {t("howWasExperience")} <span className="font-semibold text-gray-700">{volunteerName}</span>?
               </p>
             </div>
 
@@ -183,6 +183,7 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
 
 // ===================== Main Chat Component =====================
 export default function ChatPage({ matchId: propMatchId, onClose, inlineMode }) {
+  const { t } = useTranslation();
   const { matchId: paramMatchId } = useParams();
   const navigate = useNavigate();
 
@@ -371,19 +372,6 @@ const fetchMatchInfo = useCallback(async () => {
     setSending(false);
   };
 
-  // ── Mark Done ──
-  // const handleDone = async () => {
-  //   setMarkingDone(true);
-  //   try {
-  //     await axios.put(`${API}/chat/${matchIdInt}/done`, {}, { headers });
-  //     setShowDoneConfirm(false);
-  //     await fetchMatchInfo();
-  //     await fetchMessages(false);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   setMarkingDone(false);
-  // };
   
 
 
@@ -424,23 +412,7 @@ const handleDone = async () => {
   }
   setMarkingDone(false);
 };
-//   const handleDone = async () => {
-//   setMarkingDone(true);
-//   try {
-//     const res = await axios.post(`${API}/service-matches/${matchIdInt}/done`, {}, { headers }
-//     );
 
-//     alert(`تمت الخدمة ✅ تم إضافة ${res.data.earned_balance} دقيقة`);
-
-//     setShowDoneConfirm(false);
-//     await fetchMatchInfo();
-//     await fetchMessages(false);
-
-//   } catch (err) {
-//     console.error(err);
-//   }
-//   setMarkingDone(false);
-// };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -495,14 +467,7 @@ const handleDone = async () => {
         )}
 
         <div className="flex-1">
-          {/* <p className="font-semibold text-gray-800 text-sm">
-            {otherUser?.name || "Chat"}
-          </p>
-          <p className="text-xs text-gray-400">
-            {isAccepted
-              ? `⏳ Limited • ${remaining ?? "?"} messages left`
-              : "✅ Active"}
-          </p> */}
+        
           {/* ── Header status text ── */}
           <p className="text-xs text-gray-400">
             {matchInfo?.status === "accepted"
@@ -556,7 +521,7 @@ const handleDone = async () => {
               )}
               <div
                 className={`max-w-[70%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${isMine
-                  ? "bg-green-300 text-white rounded-br-sm"
+                  ? "bg-green-300  text-white rounded-br-sm"
                   : "bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm"
                   } ${msg.temp ? "opacity-70" : ""}`}
               >

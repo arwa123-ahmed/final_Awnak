@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NotificationsPage = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("incoming");
   const [incomingRequests, setIncomingRequests] = useState([]);
@@ -139,14 +141,14 @@ const NotificationsPage = () => {
               disabled={!!actionLoading}
               className="flex-1 py-2 rounded-xl bg-green-300 hover:bg-green-400 text-slate-950 font-bold text-sm transition disabled:opacity-60"
             >
-              {actionLoading === request.id + "accepted" ? "..." : "✓ Accept"}
+              {actionLoading === request.id + "accepted" ? "..." : `✓ ${t("accept")}`}
             </button>
             <button
               onClick={() => handleAction(request.id, "rejected")}
               disabled={!!actionLoading}
               className="flex-1 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-500 font-bold text-sm border border-red-200 transition disabled:opacity-60"
             >
-              {actionLoading === request.id + "rejected" ? "..." : "✕ Reject"}
+              {actionLoading === request.id + "rejected" ? "..." : `✕ ${t("reject")}`}
             </button>
           </div>
         )}
@@ -156,7 +158,7 @@ const NotificationsPage = () => {
             onClick={() => navigate(`/profile/${otherId}`)}
             className="w-full py-2 rounded-xl bg-green-50 hover:bg-green-100 text-green-600 font-bold text-sm border border-green-200 transition"
           >
-            💬 Open Chat
+            💬 {t("openChat")}
           </button>
         )}
       </div>
@@ -204,9 +206,9 @@ const NotificationsPage = () => {
             : match.status === "rejected" ? "bg-red-50 text-red-600"
               : "bg-amber-50 text-amber-600"}`}
         >
-          {match.status === "pending" && "⏳ Waiting for response..."}
-          {match.status === "accepted" && "🎉 Your request was accepted! You can start chatting."}
-          {match.status === "rejected" && "❌ Your request was declined."}
+          {match.status === "pending" && `⏳ ${t("waitingResponse")}`}
+          {match.status === "accepted" && `🎉 ${t("requestAccepted")}`}
+          {match.status === "rejected" && `❌ ${t("requestDeclined")}`}
         </div>
 
         {/* لو accepted - زرار الشات */}
@@ -215,7 +217,7 @@ const NotificationsPage = () => {
             onClick={() => navigate(`/profile/${otherId}`)}
             className="w-full py-2 rounded-xl bg-green-50 hover:bg-green-100 text-green-600 font-bold text-sm border border-green-200 transition"
           >
-            💬 Open Chat
+            💬 {t("openChat")}
           </button>
         )}
       </div>
@@ -225,11 +227,11 @@ const NotificationsPage = () => {
   return (
     <div className="max-w-2xl mx-auto py-10 px-4">
       <h1 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-2">
-        🔔 Notifications
+        🔔 {t("notifications")}
       </h1>
 
       {/* Tabs */}
-      <div className="flex bg-gray-100 rounded-full p-1 mb-6">
+      <div className={`flex bg-gray-100 rounded-full p-1 mb-6 ${i18n.language === "ar" ? "flex-row-reverse" : "flex-row"}`}>
         <button
           onClick={() => {
             setActiveTab("incoming");
@@ -238,7 +240,7 @@ const NotificationsPage = () => {
           className={`flex-1 py-2 rounded-full text-sm font-semibold transition
       ${activeTab === "incoming" ? "bg-green-300 text-white shadow" : "text-gray-500 hover:text-gray-700"}`}
         >
-          📥 Incoming
+          📥 {t("incoming")}
           {/* ✅ الرقم يختفي لو seenIncoming */}
           {!seenIncoming && incomingRequests.filter(r => r.status === "pending").length > 0 && (
             <span className="ml-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
@@ -255,7 +257,7 @@ const NotificationsPage = () => {
           className={`flex-1 py-2 rounded-full text-sm font-semibold transition
       ${activeTab === "sent" ? "bg-green-300 text-white shadow" : "text-gray-500 hover:text-gray-700"}`}
         >
-          📤 My Requests
+          📤 {t("myRequests")}
           {/* ✅ الرقم يختفي لو seenSent */}
           {!seenSent && myMatches.filter(m => m.status === "accepted" || m.status === "rejected").length > 0 && (
             <span className="ml-2 bg-green-500 text-white text-xs px-1.5 rounded-full">
@@ -266,10 +268,10 @@ const NotificationsPage = () => {
       </div>
 
       {loading ? (
-        <div className="text-center py-20 text-gray-400 animate-pulse">Loading...</div>
+        <div className="text-center py-20 text-gray-400 animate-pulse">{t("loading")}</div>
       ) : activeTab === "incoming" ? (
         incomingRequests.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">No incoming requests yet.</div>
+          <div className="text-center py-20 text-gray-400">{t("noIncomingRequests")}</div>
         ) : (
           <div className="flex flex-col gap-4">
             {incomingRequests.map((req) => <IncomingCard key={req.id} request={req} />)}
@@ -277,7 +279,7 @@ const NotificationsPage = () => {
         )
       ) : (
         myMatches.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">No sent requests yet.</div>
+          <div className="text-center py-20 text-gray-400">{t("noSentRequests")}</div>
         ) : (
           <div className="flex flex-col gap-4">
             {myMatches.map((match) => <MyRequestCard key={match.id} match={match} />)}

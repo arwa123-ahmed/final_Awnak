@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // components
 import AddServiceFAB from "../../AddService";
@@ -10,6 +11,7 @@ import CardsVo from "./cardsVo/cardsVo";
 import offHero from "../../../images/vofflinemain.jpg";
 
 const VOffline = () => {
+   const { t, i18n } = useTranslation();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -17,10 +19,6 @@ const VOffline = () => {
     setUser(storedUser);
   }, []);
 
-  // Loading user data
-  // if (!user) return <p className="text-center mt-10">Loading user...</p>;
-
-  // Check activation
   if (user && user.activation === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-gray-100 px-4">
@@ -43,24 +41,22 @@ const VOffline = () => {
   return (
     <>
       {/* ===== Hero Section بدل السلايدر ===== */}
-      <div className="bg-emerald-800 dark:bg-slate-800 rounded-3xl mx-6 mt-10 flex flex-col md:flex-row items-center justify-between overflow-hidden">
-        {/* Text */}
-        <div className="text-white p-10 md:w-1/2">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Boost your business with
-            <span className="text-green-300"> offline services</span>
-          </h1>
-
-          <p className="text-gray-300 mb-6">
-            Discover trusted offline professionals near you. From photography
-            and event planning to maintenance and local services — we connect
-            you with experts ready to deliver real-world results.
-          </p>
-
-          <button className="bg-green-300 text-slate-800 hover:bg-green-400 px-6 py-3 rounded-lg font-semibold transition">
-            Explore Services
-          </button>
-        </div>
+      <div className={`bg-emerald-800 dark:bg-slate-800 rounded-3xl mx-6 mt-10 flex flex-col overflow-hidden ${
+  i18n.language === "ar" ? "md:flex-row-reverse" : "md:flex-row"
+} items-center justify-between`}>
+  {/* Text */}
+  <div className="text-white p-10 md:w-1/2" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+    <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      {t("offlineHeroTitle1")}
+      <span className="text-green-300"> {t("offlineHeroTitle2")}</span>
+    </h1>
+    <p className="text-gray-300 mb-6">
+      {t("offlineHeroDesc")}
+    </p>
+    <button className="bg-green-300 text-slate-800 hover:bg-green-400 px-6 py-3 rounded-lg font-semibold transition">
+      {t("exploreServices")}
+    </button>
+  </div>
 
         {/* Image */}
         <div className="md:w-1/2 h-[350px] md:h-[450px]">

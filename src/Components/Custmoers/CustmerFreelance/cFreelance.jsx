@@ -3,8 +3,10 @@ import CardsVf from "./cardsCf/cardsCf";
 import offHero from "../../../images/vonlinemain.jpg";
 import { motion } from "framer-motion";
 import { FaLock } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Cfreelance = () => {
+  const { t, i18n } = useTranslation();
   const [user, setUser] = useState(null);
 
   // ✅ جلب المستخدم من localStorage
@@ -53,34 +55,28 @@ const Cfreelance = () => {
   return (
     <>
       {/* ===== Hero Section ===== */}
-      <div className="bg-[#0f2f2d] rounded-3xl mx-6 mt-10 flex flex-col md:flex-row items-center justify-between overflow-hidden">
-        {/* Text */}
-        <div className="text-white p-10 md:w-1/2">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Boost your business with
-            <span className="text-green-400"> offline services</span>
-          </h1>
+         <div className="bg-[#0f2f2d] rounded-3xl mx-6 mt-10 flex flex-col md:flex-row items-center justify-between overflow-hidden">
+  {/* Text */}
+  <div className="text-white p-10 md:w-1/2" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+    <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      {t("freelanceHeroTitle1")}
+      <span className="text-green-400"> {t("freelanceHeroTitle2")}</span>
+    </h1>
 
-          <p className="text-gray-300 mb-6">
-            Discover trusted offline professionals near you. From photography
-            and event planning to maintenance and local services — we connect
-            you with experts ready to deliver real-world results.
-          </p>
+    <p className="text-gray-300 mb-6">
+      {t("freelanceHeroDesc")}
+    </p>
 
-          <button className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg font-semibold transition">
-            Explore Services
-          </button>
-        </div>
+    <button className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg font-semibold transition">
+      {t("exploreServices")}
+    </button>
+  </div>
 
-        {/* Image */}
-        <div className="md:w-1/2 h-[350px] md:h-[450px]">
-          <img
-            src={offHero}
-            alt="Offline Services"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
+  {/* Image */}
+  <div className="md:w-1/2 h-[350px] md:h-[450px]">
+    <img src={offHero} alt="Freelance Services" className="w-full h-full object-cover" />
+  </div>
+</div>
 
       {/* ===== Categories ===== */}
       <CardsVf />

@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaHeart, FaSeedling, FaHandsHelping } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import ServiceTypeSection from "./ServiceTypeSection";
 import vhome from "../../../images/vhome3.jpg";
 
-const lines = [
-  {
-    text: "Volunteering is not just time given… it’s a value that lasts forever.",
-    icon: <FaHeart />,
-  },
-  {
-    text: "Every hour you give never goes to waste — it plants a seed in someone’s life, and one day, it may return to you when you need a helping hand.",
-    icon: <FaSeedling />,
-  },
-  {
-    text: "Be the reason behind someone’s smile, comfort, or fresh start. Begin here — with your time — for it’s the most precious and beautiful gift you can offer. ⏳💖",
-    icon: <FaHandsHelping />,
-  },
-];
 
-const word = "Volunteer";
 
 const VHomePage = () => {
+
   const [index, setIndex] = useState(-1);
   const [user, setUser] = useState(null);
+  const { t } = useTranslation();
 
+  const lines = [
+    { text: t("vLine1"), icon: <FaHeart /> },
+    { text: t("vLine2"), icon: <FaSeedling /> },
+    { text: t("vLine3"), icon: <FaHandsHelping /> },
+  ];
+
+  const word = t("volunteer");
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setUser(storedUser);
@@ -37,7 +32,7 @@ const VHomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // if (!user) return <p className="text-center mt-10">Loading user...</p>;
+
 
   if (user && user.activation === 0) {
     return (
