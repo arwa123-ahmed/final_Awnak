@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+
 const API = "http://72.62.186.133/api";
 
 // ===================== Rating Modal =====================
@@ -23,7 +24,7 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
       await axios.post(
         `${API}/ratings/${matchId}`,
         { stars, comment },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setView("success");
       onSubmit(stars);
@@ -38,10 +39,10 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
     setSubmitting(true);
     try {
       await axios.post(
-  `${API}/reports/${matchId}`,
-  { reason },
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+        `${API}/reports/${matchId}`,
+        { reason },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
       setView("success");
     } catch (err) {
       alert(err.response?.data?.message || "Error submitting report.");
@@ -52,15 +53,22 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="bg-white  dark:!bg-slate-700 rounded-3xl shadow-2xl p-8 w-full max-w-sm flex flex-col items-center gap-6 text-center">
-
         {/* ── Rating View ── */}
         {view === "rating" && (
           <>
-            <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">🎉</div>
+            <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-4xl">
+              🎉
+            </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-green-200">{t("serviceCompleted")}</h3>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-green-200">
+                {t("serviceCompleted")}
+              </h3>
               <p className="text-sm text-gray-500 dark:text-gray-200 mt-1">
-               {t("howWasExperience")} <span className="font-semibold text-gray-700 dark:text-green-500">{volunteerName}</span>?
+                {t("howWasExperience")}{" "}
+                <span className="font-semibold text-gray-700 dark:text-green-500">
+                  {volunteerName}
+                </span>
+                ?
               </p>
             </div>
 
@@ -73,14 +81,31 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
                   onClick={() => setStars(star)}
                   className="text-4xl transition-transform hover:scale-110 active:scale-90"
                 >
-                  <span className={star <= (hovered || stars) ? "text-yellow-400" : "text-gray-200"}>★</span>
+                  <span
+                    className={
+                      star <= (hovered || stars)
+                        ? "text-yellow-400"
+                        : "text-gray-200"
+                    }
+                  >
+                    ★
+                  </span>
                 </button>
               ))}
             </div>
 
             {stars > 0 && (
               <p className="text-sm font-medium text-gray-600">
-                {["", t("poor"), t("fair"), t("good"),  t("veryGood"), t("excellent")][stars]}
+                {
+                  [
+                    "",
+                    t("poor"),
+                    t("fair"),
+                    t("good"),
+                    t("veryGood"),
+                    t("excellent"),
+                  ][stars]
+                }
               </p>
             )}
 
@@ -98,7 +123,7 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
                   onClick={onClose}
                   className="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 dark:text-gray-200 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                 >
-                 {t("skip")}
+                  {t("skip")}
                 </button>
                 <button
                   onClick={handleRatingSubmit}
@@ -121,12 +146,18 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
         {/* ── Report View ── */}
         {view === "report" && (
           <>
-            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center text-3xl">⚠️</div>
+            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center text-3xl">
+              ⚠️
+            </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-green-200">{t("reportUser")}</h3>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-green-200">
+                {t("reportUser")}
+              </h3>
               <p className="text-sm text-gray-500 dark:text-gray-200 mt-1">
-               {t("tellUsWhatWentWrong")}
-                <span className="font-semibold text-red-600 dark:text-red-300">{volunteerName}</span>
+                {t("tellUsWhatWentWrong")}
+                <span className="font-semibold text-red-600 dark:text-red-300">
+                  {volunteerName}
+                </span>
               </p>
             </div>
 
@@ -150,7 +181,7 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
                 disabled={!reason.trim() || submitting}
                 className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-sm disabled:opacity-50 transition"
               >
-                {submitting ?  t("sending") : t("submitReport")}
+                {submitting ? t("sending") : t("submitReport")}
               </button>
             </div>
           </>
@@ -159,11 +190,19 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
         {/* ── Success View ── */}
         {view === "success" && (
           <div className="py-4 flex flex-col items-center gap-5">
-            <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center text-5xl">🛡️</div>
+            <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center text-5xl">
+              🛡️
+            </div>
             <div>
-              <h3 className="text-2xl font-bold text-gray-800">{t("thankYou")}</h3>
-              <p className="text-sm text-gray-500 mt-3 leading-relaxed">{t("feedbackSubmitted")}
-                <span className="font-semibold text-gray-700">{volunteerName}</span> {t("takeAppropriateAction")}
+              <h3 className="text-2xl font-bold text-gray-800">
+                {t("thankYou")}
+              </h3>
+              <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                {t("feedbackSubmitted")}
+                <span className="font-semibold text-gray-700">
+                  {volunteerName}
+                </span>{" "}
+                {t("takeAppropriateAction")}
               </p>
             </div>
             <button
@@ -174,21 +213,25 @@ const RatingModal = ({ matchId, volunteerName, onClose, onSubmit }) => {
             </button>
           </div>
         )}
-
       </div>
     </div>
   );
 };
 
 // ===================== Main Chat Component =====================
-export default function ChatPage({ matchId: propMatchId, onClose, inlineMode }) {
-  const { t } = useTranslation();
+export default function ChatPage({
+  matchId: propMatchId,
+  onClose,
+  inlineMode,
+}) {
+  const { t, i18n } = useTranslation();
+  // const { t } = useTranslation();
   const { matchId: paramMatchId } = useParams();
   const navigate = useNavigate();
 
   // ✅ Fix: always use a clean integer string for the URL
   const matchId = propMatchId ?? paramMatchId;
-const matchIdInt = matchId ? parseInt(matchId, 10) : null;
+  const matchIdInt = matchId ? parseInt(matchId, 10) : null;
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -202,7 +245,8 @@ const matchIdInt = matchId ? parseInt(matchId, 10) : null;
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [markingDone, setMarkingDone] = useState(false);
   const [ratingDone, setRatingDone] = useState(false);
-
+const [earnedMinutes, setEarnedMinutes] = useState(0);
+const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const messagesEndRef = useRef(null);
   const pollingRef = useRef(null);
   const lastMessageIdRef = useRef(null);
@@ -215,36 +259,39 @@ const matchIdInt = matchId ? parseInt(matchId, 10) : null;
   // ✅ Derive from matchInfo safely
   // const isVolunteer = matchInfo?.volunteer_id === user.id;
   // const isCustomer = matchInfo?.customer_id === user.id;
-    // ✅ احسبهم بعد ما matchInfo يجي
-// const isVolunteer = matchInfo ? matchInfo.volunteer_id === user.id : false;
-// const isCustomer  = matchInfo ? matchInfo.customer_id  === user.id : false;
-const isVolunteer = matchInfo ? matchInfo.volunteer_id === Number(user.id) : false;
-const isCustomer  = matchInfo ? matchInfo.customer_id  === Number(user.id) : false;
+  // ✅ احسبهم بعد ما matchInfo يجي
+  // const isVolunteer = matchInfo ? matchInfo.volunteer_id === user.id : false;
+  // const isCustomer  = matchInfo ? matchInfo.customer_id  === user.id : false;
+  const isVolunteer = matchInfo
+    ? matchInfo.volunteer_id === Number(user.id)
+    : false;
+  const isCustomer = matchInfo
+    ? matchInfo.customer_id === Number(user.id)
+    : false;
   const otherUser = isVolunteer ? matchInfo?.customer : matchInfo?.volunteer;
 
+  // أو أضف loading state للـ matchInfo
+  const [matchInfoLoaded, setMatchInfoLoaded] = useState(false);
 
-// أو أضف loading state للـ matchInfo
-const [matchInfoLoaded, setMatchInfoLoaded] = useState(false);
-
-const fetchMatchInfo = useCallback(async () => {
-  try {
-    const res = await axios.get(`${API}/my-matches`, { headers });
-    const match = res.data.matches?.find((m) => m.id === matchIdInt);
-    if (match) {
-      setMatchInfo(match);
-      setMatchInfoLoaded(true); // ✅ علامة إن الداتا وصلت
-      return match;
+  const fetchMatchInfo = useCallback(async () => {
+    try {
+      const res = await axios.get(`${API}/my-matches`, { headers });
+      const match = res.data.matches?.find((m) => m.id === matchIdInt);
+      if (match) {
+        setMatchInfo(match);
+        setMatchInfoLoaded(true); // ✅ علامة إن الداتا وصلت
+        return match;
+      }
+    } catch (err) {
+      console.error(err);
     }
-  } catch (err) {
-    console.error(err);
-  }
-  return null;
-}, [matchIdInt]);
+    return null;
+  }, [matchIdInt]);
 
   // ── Fetch match info first ──
   // const fetchMatchInfo = useCallback(async () => {
   //   try {
-      
+
   //     const res = await axios.get(`${API}/my-matches`, { headers });
   //     const matches = res.data.matches || [];
   //     const match = matches.find((m) => m.id === matchIdInt);
@@ -264,7 +311,9 @@ const fetchMatchInfo = useCallback(async () => {
     async (silent = false) => {
       if (!matchIdInt || isNaN(matchIdInt)) return; // guard against bad id
       try {
-        const res = await axios.get(`${API}/chat/${matchIdInt}/messages`, { headers });
+        const res = await axios.get(`${API}/chat/${matchIdInt}/messages`, {
+          headers,
+        });
         const data = res.data;
 
         const newLastId = data.messages?.[data.messages.length - 1]?.id;
@@ -293,24 +342,28 @@ const fetchMatchInfo = useCallback(async () => {
         //   });
         // }
         if (data.match_status === "completed" && !ratingDoneRef.current) {
-  // جيب الـ matchInfo من الـ ref عشان تعرف إيه role اليوزر
-  const currentMatch = await fetchMatchInfo();
-  const customerIdFromMatch = currentMatch?.customer_id;
-  if (customerIdFromMatch === Number(user.id)) {
-    setShowRatingModal((prev) => {
-      if (!prev && !ratingDoneRef.current) return true;
-      return prev;
-    });
-  }
-}
+          // جيب الـ matchInfo من الـ ref عشان تعرف إيه role اليوزر
+          const currentMatch = await fetchMatchInfo();
+          const customerIdFromMatch = currentMatch?.customer_id;
+          if (customerIdFromMatch === Number(user.id)) {
+            setShowRatingModal((prev) => {
+              if (!prev && !ratingDoneRef.current) return true;
+              return prev;
+            });
+          }
+        }
 
         if (!silent) setLoading(false);
       } catch (err) {
-        console.error("fetchMessages error:", err.response?.status, err.response?.data);
+        console.error(
+          "fetchMessages error:",
+          err.response?.status,
+          err.response?.data,
+        );
         if (!silent) setLoading(false);
       }
     },
-    [matchIdInt] // ✅ stable dependency only
+    [matchIdInt], // ✅ stable dependency only
   );
 
   useEffect(() => {
@@ -357,7 +410,7 @@ const fetchMatchInfo = useCallback(async () => {
       await axios.post(
         `${API}/chat/${matchIdInt}/messages`,
         { message: sentText },
-        { headers }
+        { headers },
       );
       await fetchMessages(true);
     } catch (err) {
@@ -371,47 +424,47 @@ const fetchMatchInfo = useCallback(async () => {
     setSending(false);
   };
 
-  
+  const handleDone = async () => {
+    if (!matchIdInt || isNaN(matchIdInt)) {
+      console.error("❌ Invalid Match ID");
+      return;
+    }
 
+    setMarkingDone(true);
+    try {
+      const res = await axios.post(
+        `${API}/service-matches/${matchIdInt}/done`,
+        {},
+        { headers },
+      );
 
-const handleDone = async () => {
-  if (!matchIdInt || isNaN(matchIdInt)) {
-    alert("❌ خطأ: Match ID غير صحيح");
-    return;
-  }
+      // ✅ تحديث الرصيد في المتصفح فوراً
+      const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+      const updatedUser = {
+        ...currentUser,
+        earnedBalance: res.data.new_volunteering_balance,
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
 
-  setMarkingDone(true);
-  try {
-    const res = await axios.post(
-      `${API}/service-matches/${matchIdInt}/done`,
-      {},
-      { headers }
-    );
+      // ✅ إرسال تنبيه للـ Navbar ليحدث الأرقام
+      window.dispatchEvent(new Event("balanceUpdated"));
+      window.dispatchEvent(new Event("userUpdated"));
 
-    // ✅ حدّث earnedBalance في localStorage
-    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const updatedUser = {
-      ...currentUser,
-      earnedBalance: res.data.new_volunteering_balance,
-    };
-    localStorage.setItem("user", JSON.stringify(updatedUser));
+      // ✅ إظهار الرسالة الجمالية بدلاً من الـ alert
+      setEarnedMinutes(res.data.earned_balance);
+      setShowSuccessAlert(true);
 
-    // ✅ حدّث الـ Navbar فوراً
-    window.dispatchEvent(new Event("balanceUpdated"));
-    window.dispatchEvent(new Event("userUpdated"));
-
-    alert(`تمت الخدمة ✅ تم إضافة ${res.data.earned_balance} دقيقة`);
-    setShowDoneConfirm(false);
-    await fetchMatchInfo();
-    await fetchMessages(false);
-
-  } catch (err) {
-    console.error("❌ handleDone error:", err.response?.data || err.message);
-    alert("❌ Error: " + (err.response?.data?.message || err.response?.status || err.message));
-  }
-  setMarkingDone(false);
-};
-
+      setShowDoneConfirm(false);
+      await fetchMatchInfo();
+      await fetchMessages(false);
+    } catch (err) {
+      console.error("❌ handleDone error:", err.response?.data || err.message);
+      alert(
+        "Error: " + (err.response?.data?.message || "Something went wrong"),
+      );
+    }
+    setMarkingDone(false);
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -431,7 +484,7 @@ const handleDone = async () => {
     if (sender?.id_image)
       return `http://72.62.186.133/storage/${sender.id_image}`;
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      sender?.name || "U"
+      sender?.name || "U",
     )}&background=bbf7d0&color=15803d&bold=true`;
   };
 
@@ -445,8 +498,9 @@ const handleDone = async () => {
 
   return (
     <div
-      className={`flex flex-col bg-white dark:!bg-slate-700 rounded-2xl shadow-lg overflow-hidden border border-gray-100 ${inlineMode ? "h-[80vh]" : "min-h-screen"
-        }`}
+      className={`flex flex-col bg-white dark:!bg-slate-700 rounded-2xl shadow-lg overflow-hidden border border-gray-100 ${
+        inlineMode ? "h-[80vh]" : "min-h-screen"
+      }`}
     >
       {/* ── Header ── */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 bg-white dark:!bg-slate-800">
@@ -466,26 +520,26 @@ const handleDone = async () => {
         )}
 
         <div className="flex-1">
-        
           {/* ── Header status text ── */}
           <p className="text-xs text-gray-400 dark:text-gray-300">
             {matchInfo?.status === "accepted"
-              ?`✅ ${t("activeUnlimited")}`
+              ? `✅ ${t("activeUnlimited")}`
               : matchInfo?.status === "completed"
                 ? `🔒 ${t("completed")} • ${remaining ?? 0} ${t("msgsLeft")}`
                 : matchInfo?.status === "inquiry"
-                  ?  `💬 ${t("inquiry")} • ${remaining ?? 30} ${t("msgsLeft")}`
-                  :  `⏳ ${t("pending")} • ${remaining ?? 30} ${t("msgsLeft")}`}
+                  ? `💬 ${t("inquiry")} • ${remaining ?? 30} ${t("msgsLeft")}`
+                  : `⏳ ${t("pending")} • ${remaining ?? 30} ${t("msgsLeft")}`}
           </p>
         </div>
 
         <span
-          className={`text-xs px-3 py-1 rounded-full font-semibold ${matchInfo?.status === "completed"
-            ? "bg-green-50 text-green-600"
-            : matchInfo?.status === "accepted"
-              ? "bg-blue-50 text-blue-600"
-              : "bg-amber-50 text-amber-600"
-            }`}
+          className={`text-xs px-3 py-1 rounded-full font-semibold ${
+            matchInfo?.status === "completed"
+              ? "bg-green-50 text-green-600"
+              : matchInfo?.status === "accepted"
+                ? "bg-blue-50 text-blue-600"
+                : "bg-amber-50 text-amber-600"
+          }`}
         >
           {matchInfo?.status || "pending"}
         </span>
@@ -519,15 +573,17 @@ const handleDone = async () => {
                 />
               )}
               <div
-                className={`max-w-[70%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${isMine
-                  ? "bg-green-300 dark:!bg-slate-950  text-white rounded-br-sm"
-                  : "bg-white dark:!bg-slate-200 dark:bg-slate-600 text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm"
-                  } ${msg.temp ? "opacity-70" : ""}`}
+                className={`max-w-[70%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                  isMine
+                    ? "bg-green-300 dark:!bg-slate-950  text-white rounded-br-sm"
+                    : "bg-white dark:!bg-slate-200 dark:bg-slate-600 text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm"
+                } ${msg.temp ? "opacity-70" : ""}`}
               >
                 <p className="whitespace-pre-wrap break-words">{msg.message}</p>
                 <p
-                  className={`text-xs mt-1 ${isMine ? "text-green-100" : "text-gray-400"
-                    }`}
+                  className={`text-xs mt-1 ${
+                    isMine ? "text-green-100" : "text-gray-400"
+                  }`}
                 >
                   {formatTime(msg.created_at)}
                   {msg.temp && " • sending..."}
@@ -549,16 +605,16 @@ const handleDone = async () => {
       )} */}
       {/* ── Limit Warning ── */}
       {limitReached && (
-  <div className="px-4 py-2.5 bg-amber-50 border-t border-amber-100 text-center">
-    <p className="text-xs text-amber-600 font-medium">
-      {matchInfo?.status === "completed"
-        ? `🔒 ${t("postServiceLimit")}`
-        : matchInfo?.status === "inquiry"
-        ? `💬 ${t("inquiryLimit")}` 
-        : `⏳ ${t("messageLimitReached")}`}
-    </p>
-  </div>
-)}
+        <div className="px-4 py-2.5 bg-amber-50 border-t border-amber-100 text-center">
+          <p className="text-xs text-amber-600 font-medium">
+            {matchInfo?.status === "completed"
+              ? `🔒 ${t("postServiceLimit")}`
+              : matchInfo?.status === "inquiry"
+                ? `💬 ${t("inquiryLimit")}`
+                : `⏳ ${t("messageLimitReached")}`}
+          </p>
+        </div>
+      )}
 
       {/* ── Done Button (volunteer only, after accepted) ── */}
       {isVolunteer && matchInfo?.status === "accepted" && (
@@ -581,8 +637,9 @@ const handleDone = async () => {
           placeholder={
             matchInfo?.status === "completed" && !limitReached
               ? "Type a message..."
-              : limitReached ?
-                 t("messageLimitReachedPlaceholder") : t("typeMessage")
+              : limitReached
+                ? t("messageLimitReachedPlaceholder")
+                : t("typeMessage")
           }
           // disabled={limitReached || matchInfo?.status === "completed"}
           disabled={limitReached}
@@ -596,7 +653,11 @@ const handleDone = async () => {
           {sending ? (
             <span className="text-xs">...</span>
           ) : (
-            <svg className="w-4 h-4 rotate-90" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-4 h-4 rotate-90"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
             </svg>
           )}
@@ -610,10 +671,10 @@ const handleDone = async () => {
             <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center text-3xl">
               ✅
             </div>
-            <h3 className="text-lg font-bold text-gray-800">{t("markAsDoneQuestion")}</h3>
-            <p className="text-sm text-gray-500">
-              {t("markAsDoneDesc")}
-            </p>
+            <h3 className="text-lg font-bold text-gray-800">
+              {t("markAsDoneQuestion")}
+            </h3>
+            <p className="text-sm text-gray-500">{t("markAsDoneDesc")}</p>
             <div className="flex gap-3 w-full">
               <button
                 onClick={() => setShowDoneConfirm(false)}
@@ -626,7 +687,7 @@ const handleDone = async () => {
                 disabled={markingDone}
                 className="flex-1 py-2.5 rounded-xl bg-green-300 hover:bg-green-400 text-white font-bold text-sm disabled:opacity-60"
               >
-                {markingDone ? "..." :  t("yesDone")}
+                {markingDone ? "..." : t("yesDone")}
               </button>
             </div>
           </div>
@@ -634,21 +695,50 @@ const handleDone = async () => {
       )}
 
       {/* ── Rating Modal (customer) ── */}
-      {showRatingModal && matchInfo && matchInfo.customer_id === Number(user.id) && (
-        <RatingModal
-          matchId={matchIdInt}
-          volunteerName={matchInfo?.volunteer?.name || "Volunteer"}
-          onClose={() => {
-            setShowRatingModal(false);
-            setRatingDone(true);
-            ratingDoneRef.current = true;
-          }}
-          onSubmit={() => {
-            setShowRatingModal(false);
-            setRatingDone(true);
-            ratingDoneRef.current = true;
-          }}
-        />
+      {showRatingModal &&
+        matchInfo &&
+        matchInfo.customer_id === Number(user.id) && (
+          <RatingModal
+            matchId={matchIdInt}
+            volunteerName={matchInfo?.volunteer?.name || "Volunteer"}
+            onClose={() => {
+              setShowRatingModal(false);
+              setRatingDone(true);
+              ratingDoneRef.current = true;
+            }}
+            onSubmit={() => {
+              setShowRatingModal(false);
+              setRatingDone(true);
+              ratingDoneRef.current = true;
+            }}
+          />
+        )}
+      {showSuccessAlert && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-slate-800 rounded-[2rem] shadow-2xl p-8 w-full max-w-sm flex flex-col items-center text-center animate-in zoom-in duration-300">
+            <div className="w-16 h-16 rounded-full bg-green-50 dark:bg-green-900/20 text-green-500 flex items-center justify-center text-3xl mb-4">
+              ✅
+            </div>
+            <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              {t("serviceCompleted")}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-300 text-sm mb-6 leading-relaxed">
+              {i18n.language === "ar" ? "مبروك! تم إضافة" : "Congratulations!"}{" "}
+              <span className="text-green-600 dark:text-green-400 font-bold">
+                {earnedMinutes} {t("min")}
+              </span>{" "}
+              {i18n.language === "ar"
+                ? "لرصيدك بنجاح."
+                : "have been added to your balance."}
+            </p>
+            <button
+              onClick={() => setShowSuccessAlert(false)}
+              className="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold shadow-lg transition-all active:scale-95"
+            >
+              {t("gotIt") || "Got it"}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
