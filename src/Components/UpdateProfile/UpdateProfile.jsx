@@ -185,7 +185,7 @@ const UpdateProfilePage = () => {
                 <FaUser className="text-green-600" /> {t("nationalId")}
               </label>
               <input type="text" name="national_id" value={formData.national_id} onChange={handleInputChange}
-                className={inputClass} />
+                className= {inputClass}  disabled/>
             </div>
 
             {/* Location */}
