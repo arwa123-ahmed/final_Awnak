@@ -1,132 +1,98 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const AIChatbot = () => {
-  const { t} = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-
-  // ✅ Load messages from localStorage
-  const [messages, setMessages] = useState(() => {
-    const saved = localStorage.getItem("chatbot_messages");
-    if (saved) return JSON.parse(saved);
-
-    return [
-      {
-        role: "assistant",
-        content: "اهلا بيك في عونك 👋 ازاي اقدر اساعدك؟",
-      },
-    ];
-  });
-
-  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content: "اهلا بيك 👋 كيف فيني ساعدك؟",
+    },
+  ]);
+  const [input, setInput] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // ✅ Save messages to localStorage
+  // نجيب تاريخ المحادثة لما يفتح الشات
   useEffect(() => {
-    localStorage.setItem("chatbot_messages", JSON.stringify(messages));
+    if (isOpen) {
+      fetchHistory();
+    }
+  }, [isOpen]);
+
+  // Auto scroll
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // نجيب التاريخ من الباك
+  const fetchHistory = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/chatbot/history", {
+        headers: {
+          Authorization: Bearer ${localStorage.getItem("token")},
+        },
+      });
+
+      if (response.data?.history?.length > 0) {
+        const historyMessages = [];
+        response.data.history.forEach((msg) => {
+          historyMessages.push({ role: "user", content: msg.question });
+          historyMessages.push({ role: "assistant", content: msg.answer });
+        });
+
+        setMessages([
+          { role: "assistant", content: "اهلا بيك 👋 كيف فيني ساعدك؟" },
+          ...historyMessages,
+        ]);
+      }
+    } catch (error) {
+      console.log("No history found");
+    }
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  // ================= SEND MESSAGE =================
-//   const handleSend = async () => {
-//     if (!input.trim() || isLoading) return;
-
-//     const userMessage = input.trim();
-//     setInput("");
-//     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
-//     setIsLoading(true);
-
-//     try {
-//       const token = localStorage.getItem("token");
-
-//       // const response = await fetch("http://72.62.186.133/api/chatbot", {
-//       //   method: "POST",
-//       //   headers: {
-//       //     "Content-Type": "application/json",
-//       //     Authorization: `Bearer ${token}`,
-//       //   },
-//       //   body: JSON.stringify({
-//       //     message: userMessage,
-//       //   }),
-//       // });
-//       const response = await fetch("http://72.62.186.133/api/chatbot", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//     // ✅ بعت الـ token بس لو موجود
-//     ...(localStorage.getItem("token") && {
-//       Authorization: `Bearer ${localStorage.getItem("token")}`,
-//     }),
-//   },
-//   body: JSON.stringify({ message: userMessage }),
-// });
-
-//       const data = await response.json();
-
-//       setMessages((prev) => [
-//         ...prev,
-//         {
-//           role: "assistant",
-//           content: data.reply || "مش فاهم سؤالك 😅",
-//         },
-//       ]);
-//     } catch (error) {
-//       setMessages((prev) => [
-//         ...prev,
-//         {
-//           role: "assistant",
-//           content: "عذراً، حدث خطأ. حاول مرة أخرى.",
-//         },
-//       ]);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-const handleSend = async () => {
+  // SEND MESSAGE
+  const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
     setInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", content: userMessage },
+    ]);
+
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://72.62.186.133/api/chatbot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(localStorage.getItem("token") && {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }),
-        },
-        body: JSON.stringify({ message: userMessage }), // ✅ بس الرسالة الحالية
-      });
-
-      const data = await response.json();
+      const response = await axios.post(
+        "http://localhost:8000/api/chatbot",
+        { message: userMessage },
+        {
+          headers: {
+            Authorization: Bearer ${localStorage.getItem("token")},
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: data.reply || "مش فاهم سؤالك 😅",
+          content: response.data?.reply ?? "ما قدرت أجيب رد 😅",
         },
       ]);
     } catch (error) {
+      console.log(error);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "عذراً، حدث خطأ. حاول مرة أخرى.",
+          content: "صار خطأ بالاتصال بالسيرفر 😅",
         },
       ]);
     } finally {
@@ -146,144 +112,84 @@ const handleSend = async () => {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-8 left-8 z-50 w-16 h-16 rounded-full shadow-2xl bg-gradient-to-br from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 text-white hover:shadow-green-500/50 dark:hover:shadow-green-600/50 transition-all duration-300 flex items-center justify-center"
+        className="fixed bottom-8 left-8 z-50 w-16 h-16 rounded-full shadow-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        animate={isOpen ? {} : { y: [0, -8, 0] }}
-        transition={{
-          y: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-        }}
       >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <X className="w-7 h-7" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="open"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <MessageCircle className="w-7 h-7" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {isOpen ? <X className="w-7 h-7" /> : <MessageCircle className="w-7 h-7" />}
       </motion.button>
 
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.85, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed bottom-28 left-8 z-50 w-96 h-[550px] rounded-2xl shadow-2xl overflow-hidden bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+            exit={{ opacity: 0, scale: 0.85, y: 20 }}
+            className="fixed bottom-28 left-8 z-50 w-96 h-[550px] rounded-2xl shadow-2xl overflow-hidden bg-white border"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 px-5 py-4 text-white dark:text-slate-900">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <Bot className="w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-base">{t("AounakHelper")}</h3>
-                </div>
-              </div>
+            <div className="bg-green-500 px-5 py-4 text-white flex items-center gap-3">
+              <Bot className="w-6 h-6" />
+              <h3 className="font-bold text-base">مساعد عونك</h3>
             </div>
 
             {/* Messages */}
-            <div className="h-[400px] overflow-y-auto px-4 py-5 space-y-4 bg-slate-50 dark:bg-slate-900">
-              {messages.map((message, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`flex gap-2.5 ${
-                    message.role === "user" ? "flex-row-reverse" : "flex-row"
+            <div className="h-[400px] overflow-y-auto p-4 space-y-4 bg-slate-50">
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`flex gap-2 ${
+                    msg.role === "user" ? "flex-row-reverse" : "flex-row"
                   }`}
                 >
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      message.role === "user"
-                        ? "bg-blue-500 dark:!bg-blue-600"
-                        : "bg-green-500 dark:!bg-green-600"
+                    className={`w-8 h-8 flex items-center justify-center rounded-full text-white ${
+                      msg.role === "user" ? "bg-blue-500" : "bg-green-500"
                     }`}
                   >
-                    {message.role === "user" ? (
-                      <User className="w-5 h-5 text-white" />
-                    ) : (
-                      <Bot className="w-5 h-5 text-white dark:text-slate-800" />
-                    )}
+                    {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
                   </div>
+
                   <div
-                    className={`max-w-[75%] px-4 py-3 rounded-2xl ${
-                      message.role === "user"
-                        ? "bg-blue-500 dark:bg-blue-600 text-white rounded-br-md"
-                        : "bg-white dark:bg-slate-800 text-slate-900 rounded-bl-md shadow-sm border border-slate-100 dark:border-slate-700"
+                    className={`px-4 py-2 rounded-xl max-w-[75%] ${
+                      msg.role === "user"
+                        ? "bg-blue-500 text-white"
+                        : "bg-white border"
                     }`}
                   >
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                      {message.content}
-                    </p>
+                    {msg.content}
                   </div>
-                </motion.div>
+                </div>
               ))}
 
               {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex gap-2.5"
-                >
-                  <div className="w-9 h-9 rounded-full bg-green-500 dark:bg-green-600 flex items-center justify-center">
-                    <Bot className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="bg-white dark:!bg-slate-800 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-slate-100 dark:border-slate-700">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  </div>
-                </motion.div>
+                <div className="flex gap-2 items-center">
+                  <Bot className="w-8 h-8 text-green-500" />
+                  <Loader2 className="animate-spin" />
+                </div>
               )}
 
               <div ref={messagesEndRef} />
             </div>
 
             {/* Input */}
-            <div className="px-4 py-3 bg-white dark:!bg-slate-800 border-t border-slate-200 dark:border-slate-700">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="اكتب رسالتك..."
-                  disabled={isLoading}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-600 transition-all disabled:opacity-50 text-sm"
-                />
-                <motion.button
-                  onClick={handleSend}
-                  disabled={!input.trim() || isLoading}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-11 h-11 rounded-xl bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center"
-                >
-                  {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <Send className="w-5 h-5" />
-                  )}
-                </motion.button>
-              </div>
+            <div className="p-3 border-t flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder="اكتب رسالتك..."
+                className="flex-1 p-2 border rounded-lg focus:outline-none"
+              />
+              <button
+                onClick={handleSend}
+                disabled={isLoading}
+                className="bg-green-500 text-white px-4 rounded-lg"
+              >
+                {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
+              </button>
             </div>
           </motion.div>
         )}
