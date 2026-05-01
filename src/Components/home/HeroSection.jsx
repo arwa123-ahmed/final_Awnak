@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import heroLight from "../../images/logoA.png";
-import heroDark from "../../images/logoDark2.1.png"; // ✅ أضيفي صورة الدارك
+import heroDark from "../../images/logoDark2.1.png"; 
 
 const HeroSection = () => {
   const isDark = document.documentElement.classList.contains("dark");

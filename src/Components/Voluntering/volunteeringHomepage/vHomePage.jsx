@@ -1,17 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaHeart, FaSeedling, FaHandsHelping } from "react-icons/fa";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
+// import { motion, AnimatePresence } from "framer-presence";
+import {
+  FaHeart,
+  FaSeedling,
+  FaHandsHelping,
+  FaInfoCircle,
+} from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import ServiceTypeSection from "./ServiceTypeSection";
 import vhome from "../../../images/vhome3.jpg";
-
-
+import { Joyride, STATUS } from "react-joyride"; // استيراد الجايد
+import volAudio from "../../../audio/vol.mp3"; // استيراد الصوت
 
 const VHomePage = () => {
-
+  const { t } = useTranslation();
   const [index, setIndex] = useState(-1);
   const [user, setUser] = useState(null);
-  const { t } = useTranslation();
+
+  // ─── إعدادات الـ Guide المطور والصوت ───
+  const [runTour, setRunTour] = useState(false);
+  const audioRef = useRef(new Audio(volAudio));
+
+  const steps = [
+    {
+      target: "#service-types",
+      disableBeacon: true,
+      content: (
+        <div className="text-right font-almarai">
+          <h3 className="font-bold text-green-600 mb-1 text-lg">
+            اختيار الخدمة
+          </h3>
+          <p className="text-sm leading-relaxed">
+            من هنا بتقدر تختار نوع الخدمة اللى انت عايز تتطوع ليها او تطلبها.
+          </p>
+        </div>
+      ),
+      placement: "top",
+    },
+    {
+      target: "#offline-section",
+      content: (
+        <div className="text-right font-almarai">
+          <h3 className="font-bold text-blue-600 mb-1 text-lg">
+            قِسم الأوفلاين
+          </h3>
+          <p className="text-sm leading-relaxed">
+            وهي الخدمات اللى بتطبق على ارض الواقع وتحتاج تواجدك الفعلي.
+          </p>
+        </div>
+      ),
+      placement: "bottom",
+    },
+    {
+      target: "#online-section",
+      content: (
+        <div className="text-right font-almarai">
+          <h3 className="font-bold text-purple-600 mb-1 text-lg">
+            قِسم الأونلاين
+          </h3>
+          <p className="text-sm leading-relaxed">
+            أو خدمات الفري لانسينج اللى ممكن تنفذها من البيت عبر الإنترنت.
+          </p>
+        </div>
+      ),
+      placement: "bottom",
+    },
+  ];
 
   const lines = [
     { text: t("vLine1"), icon: <FaHeart /> },
@@ -20,6 +75,7 @@ const VHomePage = () => {
   ];
 
   const word = t("volunteer");
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setUser(storedUser);
@@ -30,9 +86,31 @@ const VHomePage = () => {
       setIndex((prev) => (prev >= lines.length - 1 ? -1 : prev + 1));
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [lines.length]);
 
+  const handleStartGuide = () => {
+    const element = document.getElementById("service-types");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
 
+    setTimeout(() => {
+      setRunTour(true);
+      audioRef.current.currentTime = 0;
+      audioRef.current
+        .play()
+        .catch((err) => console.log("Audio play failed:", err));
+    }, 500);
+  };
+
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setRunTour(false);
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
 
   if (user && user.activation === 0) {
     return (
@@ -60,6 +138,35 @@ const VHomePage = () => {
 
   return (
     <>
+      <Joyride
+        steps={steps}
+        run={runTour}
+        continuous={true}
+        showSkipButton={true}
+        showProgress={true}
+        scrollToFirstStep={true}
+        scrollOffset={100}
+        callback={handleJoyrideCallback}
+        locale={{
+          back: "السابق",
+          close: "إنهاء",
+          last: "فهمت",
+          next: "التالي",
+          skip: "تخطي",
+        }}
+        styles={{
+          options: {
+            primaryColor: "#16a34a",
+            zIndex: 10000,
+          },
+          tooltipContainer: {
+            textAlign: "right",
+            direction: "rtl",
+            fontFamily: "Almarai, sans-serif",
+          },
+        }}
+      />
+
       <div className="relative w-full">
         <div className="relative w-full h-[600px] max-h-[600px] overflow-hidden rounded-b-[40px]">
           <img
@@ -67,7 +174,7 @@ const VHomePage = () => {
             alt="volunteer home page"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-green-900/60 dark:bg-green-900/60 backdrop-blur-[2px] flex items-center justify-center px-6 text-center">
+          <div className="absolute inset-0 bg-green-900/60 backdrop-blur-[2px] flex items-center justify-center px-6 text-center">
             <AnimatePresence mode="wait">
               {index === -1 ? (
                 <motion.h1
@@ -118,9 +225,21 @@ const VHomePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-10 md:mt-20">
+
+      <div id="service-types" className="mt-10 md:mt-20 scroll-mt-24">
         <ServiceTypeSection />
       </div>
+
+      {/* زر المساعد الإرشادي العائم */}
+      <button
+        onClick={handleStartGuide}
+        className="fixed bottom-8 left-8 z-40 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl flex items-center gap-2 group transition-all duration-300 hover:scale-110 active:scale-95 shadow-green-100"
+      >
+        <FaInfoCircle className="text-2xl" />
+        <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 font-bold whitespace-nowrap">
+          دليل القسم
+        </span>
+      </button>
     </>
   );
 };

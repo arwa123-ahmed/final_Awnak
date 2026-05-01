@@ -309,10 +309,6 @@ i18n
           "review": "review",
           "noReviews": "No reviews yet",
           "closeChat": "Close Chat",
-
-
-
-
         },
       },
       ar: {

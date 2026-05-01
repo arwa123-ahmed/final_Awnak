@@ -9,14 +9,17 @@ const ServiceTypeSection = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  // مصفوفة البيانات مع إضافة المعرفات (id) للربط مع نظام الجولة (Joyride)
   const cards = [
     {
+      id: "offline-section", // المعرف الخاص بقسم الخدمات الميدانية
       title: t("traditional"),
       desc: t("traditionalDesc"),
       image: offlineImg,
       path: "/volunteering-offline",
     },
     {
+      id: "online-section", // المعرف الخاص بقسم الخدمات عبر الإنترنت
       title: t("freelance"),
       desc: t("freelanceDesc"),
       image: onlineImg,
@@ -27,10 +30,10 @@ const ServiceTypeSection = () => {
   return (
     <section className="py-20 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-
         {cards.map((card, i) => (
           <motion.div
             key={i}
+            id={card.id} // ✅ ربط المعرف هنا لتمكين الـ Joyride من تحديد العنصر
             onClick={() => navigate(card.path)}
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -39,15 +42,14 @@ const ServiceTypeSection = () => {
             className="group cursor-pointer"
           >
             <div className="relative h-96 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
-
-              {/* الصورة */}
+              {/* الصورة مع تأثير التكبير عند التمرير */}
               <img
                 src={card.image}
                 alt={card.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
 
-              {/* Overlay */}
+              {/* طبقة الغطاء (Overlay) تظهر عند التمرير */}
               <div
                 className="absolute inset-0 
                 bg-green-900/60 
@@ -57,40 +59,28 @@ const ServiceTypeSection = () => {
                 transition-all duration-500 
                 flex items-center justify-center px-6 text-center"
               >
-
                 <div className="text-white dark:text-gray-100 transform translate-y-6 group-hover:translate-y-0 transition duration-500">
-                  <h3 className="text-2xl font-bold mb-3">
-                    {card.title}
-                  </h3>
-                  <p className="text-lg leading-relaxed">
-                    {card.desc}
-                  </p>
+                  <h3 className="text-2xl font-bold mb-3">{card.title}</h3>
+                  <p className="text-lg leading-relaxed">{card.desc}</p>
                 </div>
               </div>
 
-              {/* الجزء الأبيض */}
+              {/* الجزء السفلي الثابت (يختفي عند التمرير ليظهر الـ Overlay) */}
               <div
                 className="absolute bottom-0 w-full 
-  bg-white dark:!bg-slate-800
-  p-6 text-center
-  transition-all duration-500
-  group-hover:opacity-0 group-hover:translate-y-full"
+                bg-white dark:!bg-slate-800
+                p-6 text-center
+                transition-all duration-500
+                group-hover:opacity-0 group-hover:translate-y-full"
               >
-
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
                   {card.title}
                 </h3>
-
-                <p className="text-gray-500 dark:text-gray-400">
-                  {card.desc}
-                </p>
-
+                <p className="text-gray-500 dark:text-gray-400">{card.desc}</p>
               </div>
-
             </div>
           </motion.div>
         ))}
-
       </div>
     </section>
   );

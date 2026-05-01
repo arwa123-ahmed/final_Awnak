@@ -142,21 +142,21 @@ const router = createBrowserRouter([
       //   element: <ServicesByCategory type="offers" />,
       // },
       {
-  path: "volunteer/category/:id",
-  element: (
-    <ProtectedRoute>
-      <ServicesByCategory type="requests" />
-    </ProtectedRoute>
-  ),
-},
-{
-  path: "customer/category/:id",
-  element: (
-    <ProtectedRoute>
-      <ServicesByCategory type="offers" />
-    </ProtectedRoute>
-  ),
-},
+        path: "volunteer/category/:id",
+        element: (
+          <ProtectedRoute>
+            <ServicesByCategory type="requests" />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "customer/category/:id",
+        element: (
+          <ProtectedRoute>
+            <ServicesByCategory type="offers" />
+          </ProtectedRoute>
+        ),
+      },
 
       { path: "notifications", element: <NotificationsPage /> },
 
@@ -164,39 +164,39 @@ const router = createBrowserRouter([
     ],
   },
 
- // ADMIN ROUTES
-{ path: "/admin/login", element: <AdminLogin /> },
-// {
-//   path: "/admin",
-//   element: (
-//     <AdminProtectedRoute>
-//       <Layout />
-//     </AdminProtectedRoute>
-//   ),
-//   children: [
-//     { index: true, element: <AdminDashboard /> },
-//     { path: "users", element: <AdminUsers /> },
-//     { path: "services", element: <AdminServices /> },
-//     { path: "payments", element: <AdminRecharges /> },
-//     { path: "Reports", element: <AdminReports /> },
-//   ],
-// },
-{
-  path: "/admin",
-  element: (
-    <AdminProtectedRoute>
-      <Layout />
-    </AdminProtectedRoute>
-  ),
-  children: [
-    { index: true, element: <AdminDashboard /> },
-    { path: "users", element: <AdminUsers /> },
-    { path: "services", element: <AdminServices /> },
-    { path: "payments", element: <AdminRecharges /> },
-    { path: "Reports", element: <AdminReports /> },
-  ],
-},
-  
+  // ADMIN ROUTES
+  { path: "/admin/login", element: <AdminLogin /> },
+  // {
+  //   path: "/admin",
+  //   element: (
+  //     <AdminProtectedRoute>
+  //       <Layout />
+  //     </AdminProtectedRoute>
+  //   ),
+  //   children: [
+  //     { index: true, element: <AdminDashboard /> },
+  //     { path: "users", element: <AdminUsers /> },
+  //     { path: "services", element: <AdminServices /> },
+  //     { path: "payments", element: <AdminRecharges /> },
+  //     { path: "Reports", element: <AdminReports /> },
+  //   ],
+  // },
+  {
+    path: "/admin",
+    element: (
+      <AdminProtectedRoute>
+        <Layout />
+      </AdminProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <AdminDashboard /> },
+      { path: "users", element: <AdminUsers /> },
+      { path: "services", element: <AdminServices /> },
+      { path: "payments", element: <AdminRecharges /> },
+      { path: "Reports", element: <AdminReports /> },
+    ],
+  },
+
 
   // Registration
   {
